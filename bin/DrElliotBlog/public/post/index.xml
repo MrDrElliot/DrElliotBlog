@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Post on Dr. Elliot</title>
-    <link>https://mrdrelliot.github.io/post/</link>
+    <link>http://localhost:1313/post/</link>
     <description>Recent content in Post on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 16 Aug 2024 10:28:54 -0500</lastBuildDate>
-    <atom:link href="https://mrdrelliot.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Network Serialization</title>
-      <link>https://mrdrelliot.github.io/post/networkserialization/</link>
+      <link>http://localhost:1313/post/networkserialization/</link>
       <pubDate>Fri, 16 Aug 2024 10:28:54 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/post/networkserialization/</guid>
+      <guid>http://localhost:1313/post/networkserialization/</guid>
       <description> int main() { std::cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34;; } </description>
     </item>
   </channel>
