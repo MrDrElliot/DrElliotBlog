@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Memory on Dr. Elliot</title>
+    <link>https://mrdrelliot.github.io/memory/</link>
+    <description>Recent content in Memory on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Aug 2024 14:31:08 -0500</lastBuildDate>
+    <atom:link href="https://mrdrelliot.github.io/memory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TArray Allocators</title>
+      <link>https://mrdrelliot.github.io/memory/tarrayallocators/</link>
+      <pubDate>Fri, 16 Aug 2024 14:31:08 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/memory/tarrayallocators/</guid>
+      <description>Understanding TArray Allocators in Unreal Engine Unreal Engine&amp;rsquo;s TArray is a powerful and flexible container that allows you to manage dynamic arrays in your code. One of its lesser-known yet incredibly useful features is the ability to specify custom allocators. These allocators determine how the memory for the array is allocated and managed, which can have a significant impact on performance, especially in memory-constrained environments.&#xA;I personally highly recommend taking a look at the VoxelCore library that&amp;rsquo;s open source on Github, they wrote lots of incredibly performant containers that are worth a lot at.</description>
+    </item>
+    <item>
+      <title>Templated Object Types</title>
+      <link>https://mrdrelliot.github.io/memory/templateobjecttypes/</link>
+      <pubDate>Fri, 16 Aug 2024 14:31:08 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/memory/templateobjecttypes/</guid>
+      <description>Unreal Engine provides various templated object pointer types that help manage memory and references to UObject instances in a safe and efficient manner. These templated types are vital for ensuring the stability and performance of your Unreal Engine projects. In this post, we&amp;rsquo;ll explore the most common templated object pointer types, explain what they do, and discuss when to use them.&#xA;1. TObjectPtr&amp;lt;&amp;gt; Purpose: TObjectPtr is a smart pointer introduced in Unreal Engine 5, designed to replace raw pointers for referencing UObject types.</description>
+    </item>
+    <item>
+      <title>What Are Soft References?</title>
+      <link>https://mrdrelliot.github.io/memory/softreferences/</link>
+      <pubDate>Fri, 16 Aug 2024 14:31:08 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/memory/softreferences/</guid>
+      <description>What Are Soft References? Soft references are a way to reference an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.&#xA;Why Use Soft References? Imagine your game has a massive library of assets. Loading everything at once would quickly consume your memory, leading to performance issues or, worse, crashing your game.</description>
+    </item>
+    <item>
+      <title>Working With Buffers</title>
+      <link>https://mrdrelliot.github.io/memory/buffers/</link>
+      <pubDate>Fri, 16 Aug 2024 12:28:45 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/memory/buffers/</guid>
+      <description>In Unreal Engine, buffers are simply containers of bytes that can store raw data using memory offsets. Understanding how to effectively manage these buffers is essential for tasks like serialization, deserialization, and data storage.&#xA;Raw C++ Buffer Management In raw C++, managing buffers and packing data requires manual handling of memory offsets. For example, consider the following code that packs several uint32_t values into a std::vector&amp;lt;std::byte&amp;gt; buffer:&#xA;#include &amp;lt;vector&amp;gt; #include &amp;lt;cstdint&amp;gt; #include &amp;lt;cstring&amp;gt; // For std::memcpy void PackData() { // Buffer to hold the packed data std::vector&amp;lt;std::byte&amp;gt; buffer; // Example data std::vector&amp;lt;uint32_t&amp;gt; data = { 1234, 5678, 91011 }; // Calculate the total size needed for the buffer size_t totalSize = data.</description>
+    </item>
+  </channel>
+</rss>

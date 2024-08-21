@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Networking on Dr. Elliot</title>
+    <link>https://mrdrelliot.github.io/networking/</link>
+    <description>Recent content in Networking on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Aug 2024 10:28:54 -0500</lastBuildDate>
+    <atom:link href="https://mrdrelliot.github.io/networking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Network Serialization</title>
+      <link>https://mrdrelliot.github.io/networking/networkserialization/</link>
+      <pubDate>Fri, 16 Aug 2024 10:28:54 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/networking/networkserialization/</guid>
+      <description>Hello, I wanted to talk about some ways you can improve networking performance in C++ by understanding and implementing efficient network serialization in Unreal Engine. Effective serialization is critical for transmitting data across the network without unnecessary overhead, especially in multiplayer games where bandwidth is limited.&#xA;This article assumes basic familiarization with Unreal Engine&amp;rsquo;s networking system.&#xA;What is Network Serialization? Serialization in the context of networking refers to the process of converting data into a format that can be easily transmitted over a network and reconstructed later.</description>
+    </item>
+  </channel>
+</rss>

@@ -2,19 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://mrdrelliot.github.io/</loc>
+    <lastmod>2024-08-16T14:31:08-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/memory/</loc>
+    <lastmod>2024-08-16T14:31:08-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/memory/tarrayallocators/</loc>
+    <lastmod>2024-08-16T14:31:08-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/memory/templateobjecttypes/</loc>
+    <lastmod>2024-08-16T14:31:08-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/memory/softreferences/</loc>
+    <lastmod>2024-08-16T14:31:08-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/general/bpvscpp/</loc>
+    <lastmod>2024-08-16T13:46:48-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/general/constexpr/</loc>
+    <lastmod>2024-08-16T13:46:48-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/general/</loc>
+    <lastmod>2024-08-16T13:46:48-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/general/inheritenceoveruse/</loc>
+    <lastmod>2024-08-16T13:46:48-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/general/lambdadangers/</loc>
+    <lastmod>2024-08-16T13:46:48-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/gas/</loc>
+    <lastmod>2024-08-16T12:29:09-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/gas/intro/</loc>
+    <lastmod>2024-08-16T12:29:09-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/memory/buffers/</loc>
+    <lastmod>2024-08-16T12:28:45-05:00</lastmod>
+  </url><url>
     <loc>https://mrdrelliot.github.io/about/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
     <loc>https://mrdrelliot.github.io/about/aboutme/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>https://mrdrelliot.github.io/</loc>
+    <loc>https://mrdrelliot.github.io/intro/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>https://mrdrelliot.github.io/posts/networking/networkserialization/</loc>
+    <loc>https://mrdrelliot.github.io/intro/intro/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>https://mrdrelliot.github.io/posts/</loc>
+    <loc>https://mrdrelliot.github.io/networking/networkserialization/</loc>
+    <lastmod>2024-08-16T10:28:54-05:00</lastmod>
+  </url><url>
+    <loc>https://mrdrelliot.github.io/networking/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
     <loc>https://mrdrelliot.github.io/series/</loc>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>General on Dr. Elliot</title>
+    <link>https://mrdrelliot.github.io/general/</link>
+    <description>Recent content in General on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Aug 2024 13:46:48 -0500</lastBuildDate>
+    <atom:link href="https://mrdrelliot.github.io/general/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blueprint vs C&#43;&#43;: Different Tools for Different Jobs</title>
+      <link>https://mrdrelliot.github.io/general/bpvscpp/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/bpvscpp/</guid>
+      <description>C++ Is Not Better Than Blueprint—They’re Just Different You’ve probably heard the argument before: “C++ is better than Blueprint.” Often, this comes from people who are new to using C++ in Unreal Engine and are riding the peak of the Dunning-Kruger effect.&#xA;The truth is, one isn’t better than the other—they’re just different. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C++ is superior to Blueprint, comes across as arrogant.</description>
+    </item>
+    <item>
+      <title>Constexpr and Consteval</title>
+      <link>https://mrdrelliot.github.io/general/constexpr/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/constexpr/</guid>
+      <description>Simple way to possibly increase some performance. This blog is a follow-up to this YouTube video: https://www.youtube.com/watch?v=8-VZoXn8f9U&#xA;Consider the following code:&#xA;// ConstexprExample.cpp : This file contains the &amp;#39;main&amp;#39; function. Program execution begins and ends there. // #include &amp;lt;iostream&amp;gt; #include &amp;lt;chrono&amp;gt; int Fibonacci(int n) { if (n &amp;lt;= 1) return n; return Fibonacci(n - 1) + Fibonacci(n - 2); } constexpr int Fibonacci_C(int n) { if (n &amp;lt;= 1) return n; return Fibonacci_C(n - 1) + Fibonacci_C(n - 2); } int main() { auto Start = std::chrono::high_resolution_clock::now(); constexpr int num = 25; constexpr int result_c = Fibonacci_C(num); std::cout &amp;lt;&amp;lt; &amp;#34;Constexpr Fibonacci: &amp;#34; &amp;lt;&amp;lt; result_c &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;; std::cout &amp;lt;&amp;lt; &amp;#34;Time Taken: &amp;#34; &amp;lt;&amp;lt; std::chrono::duration_cast&amp;lt;std::chrono::microseconds&amp;gt;(std::chrono::high_resolution_clock::now() - Start).</description>
+    </item>
+    <item>
+      <title>Overuse of Inheritence, alternatives.</title>
+      <link>https://mrdrelliot.github.io/general/inheritenceoveruse/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/inheritenceoveruse/</guid>
+      <description>Inheritance in object-oriented programming (OOP) is a fundamental concept that is deeply embedded in the design of Unreal Engine, and in many cases, it&amp;rsquo;s an elegant and powerful tool. However, like any tool, it can be overused, leading developers into a trap that can complicate development and maintenance in the long run.&#xA;The Trap of Overusing Inheritance Inheritance is often the go-to solution for sharing functionality across different classes. While it provides a straightforward way to extend and modify behavior, over-relying on it can lead to a rigid and tightly coupled codebase.</description>
+    </item>
+    <item>
+      <title>The dangers of Lambdas</title>
+      <link>https://mrdrelliot.github.io/general/lambdadangers/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/lambdadangers/</guid>
+      <description>Using Lambdas in Unreal can be dangerous! Lambdas, or anonymous functions, in Unreal Engine can be very useful for writing concise and flexible code. However, they come with certain dangers, particularly when dealing with the lifetime of objects and capturing variables by reference. Here’s why:&#xA;1. Capturing by Reference and Object Lifetimes When you use lambdas in Unreal Engine, you might capture variables by reference, which is common for avoiding unnecessary copying.</description>
+    </item>
+  </channel>
+</rss>

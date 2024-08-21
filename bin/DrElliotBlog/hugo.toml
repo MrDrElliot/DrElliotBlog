@@ -10,11 +10,11 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
 
 [params]
     brand = "Dr. Elliot"                      # name of your site - appears in the sidebar
-    # remote_brand_image = 'https://github.com/mrdrelliot.png' # path to a remote file
+    remote_brand_image = 'https://github.com/mrdrelliot.png' # path to a remote file
     # brand_image = "/images/test.jpg"    # path to the image shown in the sidebar
     description = "A collection of things I've learned using Unreal Engine." # Used as default meta description if not specified in front matter
     dark_mode = true                      # optional - defaults to false
-    # favicon = "favicon.png"             # path to favicon (defaults to favicon.png)
+    favicon = "favicon.png"             # path to favicon (defaults to favicon.png)
 
     front_page_content = ["posts"] # Equivalent to the default value, add page bundle names to include them on the front page.
 
@@ -26,12 +26,15 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
         # Limit:        If the files should be listed, how many should be shown.
     menu = [
         {Name = "About", URL = "/about/", HasChildren = false},
-        {Name = "Posts", URL = "/posts/", Pre = "Recent", HasChildren = true, Limit = 5},
+        {Name = "General", URL = "/general/", HasChildren = true, Limit = 5},
+        {Name = "Networking", URL = "/networking/", HasChildren = true, Limit = 5},
+        {Name = "Memory", URL = "/memory/", HasChildren = true, Limit = 5},
+        {Name = "Gameplay Ability System", URL = "/gas/", HasChildren = true, Limit = 5},
     ]
 
     # Links to your socials.
     discord_url = "https://discord.gg/WTqSFrBg6t"
-    # email_url = "mailto://mrdrelliot@gmail.com"
+    email_url = "mailto://mrdrelliot@gmail.com"
 
     # Hex colors for your sidebar.
     moon_sun_background_color = "#515151"   # default is #515151
