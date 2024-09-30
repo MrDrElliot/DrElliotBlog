@@ -59,11 +59,11 @@
 
 <!-- Open Graph image and Twitter Card metadata -->
 
-<title itemprop="name">Dr. Elliot - About Me</title>
-<meta property="og:title" content=Dr.&#32;Elliot&#32;-&#32;About&#32;Me />
-<meta name="twitter:title" content=Dr.&#32;Elliot&#32;-&#32;About&#32;Me />
-<meta itemprop="name" content=Dr.&#32;Elliot&#32;-&#32;About&#32;Me />
-<meta name="application-name" content=Dr.&#32;Elliot&#32;-&#32;About&#32;Me />
+<title itemprop="name">Dr. Elliot - The Cast Scare</title>
+<meta property="og:title" content=Dr.&#32;Elliot&#32;-&#32;The&#32;Cast&#32;Scare />
+<meta name="twitter:title" content=Dr.&#32;Elliot&#32;-&#32;The&#32;Cast&#32;Scare />
+<meta itemprop="name" content=Dr.&#32;Elliot&#32;-&#32;The&#32;Cast&#32;Scare />
+<meta name="application-name" content=Dr.&#32;Elliot&#32;-&#32;The&#32;Cast&#32;Scare />
 <meta property="og:site_name" content="Dr. Elliot" />
 
 
@@ -73,14 +73,14 @@
 <meta name="twitter:description" content="" />
 
 
-<base href="https://mrdrelliot.github.io/about/aboutme/" />
-<link rel="canonical" href="https://mrdrelliot.github.io/about/aboutme/" itemprop="url" />
-<meta name="url" content="https://mrdrelliot.github.io/about/aboutme/" />
-<meta name="twitter:url" content="https://mrdrelliot.github.io/about/aboutme/" />
-<meta property="og:url" content="https://mrdrelliot.github.io/about/aboutme/" />
+<base href="https://mrdrelliot.github.io/optimization/thecastscare/" />
+<link rel="canonical" href="https://mrdrelliot.github.io/optimization/thecastscare/" itemprop="url" />
+<meta name="url" content="https://mrdrelliot.github.io/optimization/thecastscare/" />
+<meta name="twitter:url" content="https://mrdrelliot.github.io/optimization/thecastscare/" />
+<meta property="og:url" content="https://mrdrelliot.github.io/optimization/thecastscare/" />
 
 
-<meta property="og:updated_time" content="2024-08-16T10:28:54-05:00" />
+<meta property="og:updated_time" content="2024-09-06T00:00:00Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://mrdrelliot.github.io/sitemap.xml' />
@@ -542,15 +542,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
                 <div class="post">
   <div class="info">
   <h1 class="post-title">
-    <a href="https://mrdrelliot.github.io/about/aboutme/">About Me</a>
+    <a href="https://mrdrelliot.github.io/optimization/thecastscare/">The Cast Scare</a>
   </h1>
 
   <div class="headline">
     <div>
       
       
-      <time datetime=" 2024-08-16T10:28:54-0500" class="post-date">
-        August 16, 2024
+      <time datetime=" 2024-09-06T00:00:00Z" class="post-date">
+        September 6, 2024
       </time>
       
       <span> - </span>
@@ -559,7 +559,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
           
         
 
-        <span>1 min read</span>
+        <span>5 mins read</span>
       </span>
     </div>
 
@@ -572,13 +572,39 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
   
 </div>
 
-  <hr>
-<p>Hello, and welcome to my blog!</p>
-<p>I&rsquo;m an Unreal Engine developer specializing in networking and gameplay systems. I&rsquo;ve been working with the engine for just over two years, driven by a passion for expanding my knowledge.</p>
-<p>Lately, I&rsquo;ve been diving deep into advanced networking techniques, as well as on the Gameplay Ability System.</p>
-<p>Outside of development, I&rsquo;m a passionate gamer, inspired by the rich worlds and narratives of classics like Fallout 3 and Fallout: New Vegas. I&rsquo;m also a big fan of John Carpenter&rsquo;s The Thing (1982)—a true masterpiece in my eyes.</p>
-<p>Through this blog, I hope to share the insights and techniques I&rsquo;ve gathered along the way.</p>
-<p><strong>As with any blog, please don&rsquo;t trust everything you read on the internet. Do you own tests, do your own confirmations.</strong></p>
+  <p>Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it&rsquo;s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There&rsquo;s no shortage of YouTube videos with clickbait titles like &ldquo;<em>Casting is so bad, NEVER use it in your games!</em>&rdquo; (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so. But I digress.</p>
+<h2 id="so-what-is-casting">So what is casting?</h2>
+<p>Casting is simply a way of converting one object type into another in Unreal Engine. In Blueprint, this is often done to access or interact with specific properties or methods on an object. For example, you might cast to a <code>PlayerCharacter</code> to access health or inventory functions from a generic object reference.</p>
+<p>In C++ terms, casting is essentially telling the engine, &ldquo;I know this object is actually of a more specific type, so let me treat it as that type.&rdquo;</p>
+<h2 id="is-casting-expensive">Is casting expensive?</h2>
+<p>Let’s clear this up: casting itself is not expensive. The act of casting doesn’t add significant runtime cost to your game. The real performance cost comes from asset loading, not the casting process itself. When you cast to a type, if the asset (like a skeletal mesh, material, or Blueprint class) hasn’t been loaded yet, the engine will load it. That’s where you might see a performance hit, but it happens once—after that, the asset is loaded into memory, and casting has no additional cost.</p>
+<p>A common misconception is the advice to &ldquo;never cast on Tick.&rdquo; Let me be clear: casting on Tick is fine. It doesn’t negatively affect performance in any significant way. Want to know a secret? The engine itself casts on Tick, and even Epic’s own Lyra Starter Game casts on Tick. Why? Because it doesn’t matter. If you’re worrying about saving nanoseconds, you’re over-optimizing. Don&rsquo;t believe me? <strong>PROFILE</strong>.</p>
+<p>So, relax—the world isn’t going to end if you cast on Tick.</p>
+<p>This misunderstanding of casting has led to a lot of disinformation, causing new developers to shy away from it out of fear, or worse, use convoluted workarounds that don&rsquo;t actually solve the issue.</p>
+<h2 id="what-makes-casting-bad">What makes casting bad?</h2>
+<p>The main thing that gets casting a bad rap is the creation of <strong>hard references</strong>. A hard reference means that when one asset references another directly, Unreal has to load both assets into memory. This can create long dependency chains that cause your game or editor to stutter or hang, especially when many assets are involved.</p>
+<p>However, here&rsquo;s the real kicker: <strong>it&rsquo;s not the casting that causes the hard reference, it&rsquo;s the pin</strong>. The &ldquo;As XYZ&rdquo; pin is what is causing the hard reference in your Blueprint, which is where the real problem lies. Many developers think they&rsquo;re avoiding hard references by using something like an interface or event dispatcher, but if they&rsquo;re still using the same reference pin, they&rsquo;re still creating the hard reference. The cast node itself is not the issue; it’s the context surrounding it.</p>
+<h2 id="what-makes-casting-good">What makes casting good?</h2>
+<p>Now that we’ve cleared up some of the misconceptions, let’s talk about when casting is a good idea. When done right, casting is an effective tool to make your code cleaner and more efficient.</p>
+<p>Here are some tips to keep your casting effective:</p>
+<ul>
+<li>
+<p><strong>Cast to native classes whenever possible</strong>. Native classes (C++ classes) have a lower overhead since they don&rsquo;t rely on Blueprint&rsquo;s reflection system, and don&rsquo;t contain any other hard references (a vast majority of the time).</p>
+</li>
+<li>
+<p>If you&rsquo;re working exclusively in Blueprint, <strong>keep your base classes free of any asset references</strong>. Avoid adding things like skeletal meshes, materials, or other large assets to the base class you&rsquo;re going to be casting to. This reduces the risk of inadvertently loading large assets unnecessarily.</p>
+<p>For example, if you cast to a <code>PlayerCharacter</code> class that has a skeletal mesh component attached to it, Unreal will load the mesh as soon as the class is referenced—even if you’re just trying to access a health variable. Avoid this by keeping base classes lightweight.</p>
+</li>
+<li>
+<p>You can also get a lot of these things without needing to cast to your player at all. For example, the On Overlap delegate that you commonly use in your Blueprints to receive a callback when your actor/component overlaps with something&hellip;
+The <em>Other Actor</em> pin produces an actor reference. You can use *<em>Get Component By Class</em> to anonymously find a component on your actor, without needing to cast to your character, or even any character.</p>
+</li>
+</ul>
+<h2 id="the-bigger-problem-hard-references">The Bigger Problem: Hard References</h2>
+<p>As mentioned earlier, hard references are a larger problem than casting itself. Creating long dependency chains between assets can bring the Unreal editor (or even your game) to a screeching halt. This is especially true if you’ve got multiple assets referencing one another indirectly through these chains. Managing these references is key to keeping your game performant, and it&rsquo;s something that requires thoughtful planning during development.</p>
+<p>But that’s a discussion for another day.</p>
+<hr>
+<p>In conclusion, casting has gotten a bad reputation because of misinformation. It&rsquo;s not inherently bad, nor is it expensive at runtime. The real issue lies in how casting can lead to hard references, especially when combined with asset-heavy classes. By understanding how casting works, and how to minimize hard references, you&rsquo;ll be in a much better position to use it efficiently in your projects.</p>
 
   
   <hr>
@@ -597,7 +623,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <div class="article-toc ">
     <div class="toc-wrapper">
       <h4 id="contents"></h4>
-      <nav id="TableOfContents"></nav>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#so-what-is-casting">So what is casting?</a></li>
+    <li><a href="#is-casting-expensive">Is casting expensive?</a></li>
+    <li><a href="#what-makes-casting-bad">What makes casting bad?</a></li>
+    <li><a href="#what-makes-casting-good">What makes casting good?</a></li>
+    <li><a href="#the-bigger-problem-hard-references">The Bigger Problem: Hard References</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 

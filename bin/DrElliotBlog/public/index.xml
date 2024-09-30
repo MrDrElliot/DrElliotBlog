@@ -6,8 +6,15 @@
     <description>Recent content on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Aug 2024 14:31:08 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://mrdrelliot.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Cast Scare</title>
+      <link>https://mrdrelliot.github.io/optimization/thecastscare/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://mrdrelliot.github.io/optimization/thecastscare/</guid>
+      <description>Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it&amp;rsquo;s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There&amp;rsquo;s no shortage of YouTube videos with clickbait titles like &amp;ldquo;Casting is so bad, NEVER use it in your games!&amp;rdquo; (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so.</description>
+    </item>
     <item>
       <title>TArray Allocators</title>
       <link>https://mrdrelliot.github.io/memory/tarrayallocators/</link>
