@@ -1,6 +1,6 @@
 +++  
-title = "Move Semantics in C++ and Unreal Engine"  
-date = 2024-09-30T12:28:45-05:00  
+title = "Move Semantics"  
+date = 2024-09-29T12:28:45-05:00  
 draft = false  
 +++
 
@@ -309,19 +309,6 @@ Allocations: 2
 Copies: 0
 Moves: 0
 ```
-
-### Key Differences
-
-1. **`TArray` vs `std::vector`**:  
-   Unreal Engine uses
-
- `TArray` instead of `std::vector`, but the concepts remain the same. You can pre-allocate memory with `Reserve()` and use `Emplace()` to construct elements in place, just like in C++.
-
-2. **Unreal Engine Logging**:  
-   Instead of `std::cout`, Unreal Engine uses the logging system (`UE_LOG`) to output messages.
-
-3. **Memory Allocation**:  
-   Unreal Engine uses `FMemory::Malloc()` for custom memory management, replacing the raw `malloc()` used in the C++ version.
 
 ---
 

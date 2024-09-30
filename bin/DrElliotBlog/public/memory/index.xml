@@ -6,8 +6,15 @@
     <description>Recent content in Memory on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Aug 2024 14:31:08 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 29 Sep 2024 12:28:45 -0500</lastBuildDate>
     <atom:link href="https://mrdrelliot.github.io/memory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Move Semantics</title>
+      <link>https://mrdrelliot.github.io/memory/movesemantics/</link>
+      <pubDate>Sun, 29 Sep 2024 12:28:45 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/memory/movesemantics/</guid>
+      <description>Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.&#xA;Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.</description>
+    </item>
     <item>
       <title>TArray Allocators</title>
       <link>https://mrdrelliot.github.io/memory/tarrayallocators/</link>
