@@ -215,6 +215,60 @@ Moves: 0
 
 ---
 
+Just to put this in there, you don't always need to use a vector if you know the size. A std::array makes more sense in situations where you know the size.
+
+```cpp
+void PrintVector(const std::array<Data, 5>& InData)
+{
+    std::cout << "Size: " << InData.size() << std::endl;
+    if (InData.empty())
+    {
+        return;
+    }
+
+    std::cout << "Elements: { ";
+    for (int i = 0; i < InData.size(); i++)
+    {
+        std::cout << InData[i].integer;
+        if (i < InData.size() - 1)
+        {
+            std::cout << ", ";
+        }
+    }
+    std::cout << " }\n";
+}
+
+int main()
+{
+    std::array<Data, 5> Numbers;
+
+    for (size_t i = 0; i < 5; i++)
+    {
+        Numbers[i].integer = i;
+    }
+
+    PrintVector(Numbers);
+
+    std::cout << "Allocation: " << gAllocations << std::endl;
+    std::cout << "Copies: " << gCopies << std::endl;
+    std::cout << "Moves: " << gMoves;
+
+    std::cin.get();
+}
+```
+
+This my by far the most efficient.
+
+```
+Size: 5
+Elements: { 0, 1, 2, 3, 4 }
+Allocation: 0
+Copies: 0
+Moves: 0
+```
+
+But we're more talking about vectors and dynamic memory allocation, which is why we use .reserve() to allocate the memory once where we need it.
+
 ## Move Semantics in Unreal Engine
 
 Unreal Engine’s `TArray` is the engine's equivalent to `std::vector` in C++. Much like in raw C++, you can benefit from move semantics when working with `TArray` to avoid unnecessary copies and allocations.
@@ -295,6 +349,16 @@ void TestMoveSemantics()
     UE_LOG(LogTemp, Warning, TEXT("Copies: %d"), gCopies);
     UE_LOG(LogTemp, Warning, TEXT("Moves: %d"), gMoves);
 }
+```
+
+Bringing back up that std::array over std::vector point, you can use TArray allocators to solve the need to create that second allocation **(Numbers.Reserve(5))**. You could just inline the array allocation if you know it's only a specific size.
+
+Here's an example:
+
+```cpp
+    TArray<FData, TInlineAllocator<5>> Numbers;
+    TArray<FData, TFixedAllocator<5>> Numbers;
+    ...
 ```
 
 ### The Unreal Engine Output:
