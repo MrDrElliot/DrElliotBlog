@@ -59,11 +59,11 @@
 
 <!-- Open Graph image and Twitter Card metadata -->
 
-<title itemprop="name">Dr. Elliot - Overuse of Inheritence, alternatives.</title>
-<meta property="og:title" content=Dr.&#32;Elliot&#32;-&#32;Overuse&#32;of&#32;Inheritence,&#32;alternatives. />
-<meta name="twitter:title" content=Dr.&#32;Elliot&#32;-&#32;Overuse&#32;of&#32;Inheritence,&#32;alternatives. />
-<meta itemprop="name" content=Dr.&#32;Elliot&#32;-&#32;Overuse&#32;of&#32;Inheritence,&#32;alternatives. />
-<meta name="application-name" content=Dr.&#32;Elliot&#32;-&#32;Overuse&#32;of&#32;Inheritence,&#32;alternatives. />
+<title itemprop="name">Dr. Elliot - Fun with V-Tables</title>
+<meta property="og:title" content=Dr.&#32;Elliot&#32;-&#32;Fun&#32;with&#32;V-Tables />
+<meta name="twitter:title" content=Dr.&#32;Elliot&#32;-&#32;Fun&#32;with&#32;V-Tables />
+<meta itemprop="name" content=Dr.&#32;Elliot&#32;-&#32;Fun&#32;with&#32;V-Tables />
+<meta name="application-name" content=Dr.&#32;Elliot&#32;-&#32;Fun&#32;with&#32;V-Tables />
 <meta property="og:site_name" content="Dr. Elliot" />
 
 
@@ -73,14 +73,14 @@
 <meta name="twitter:description" content="" />
 
 
-<base href="https://mrdrelliot.github.io/general/inheritenceoveruse/" />
-<link rel="canonical" href="https://mrdrelliot.github.io/general/inheritenceoveruse/" itemprop="url" />
-<meta name="url" content="https://mrdrelliot.github.io/general/inheritenceoveruse/" />
-<meta name="twitter:url" content="https://mrdrelliot.github.io/general/inheritenceoveruse/" />
-<meta property="og:url" content="https://mrdrelliot.github.io/general/inheritenceoveruse/" />
+<base href="https://mrdrelliot.github.io/general/vtable/" />
+<link rel="canonical" href="https://mrdrelliot.github.io/general/vtable/" itemprop="url" />
+<meta name="url" content="https://mrdrelliot.github.io/general/vtable/" />
+<meta name="twitter:url" content="https://mrdrelliot.github.io/general/vtable/" />
+<meta property="og:url" content="https://mrdrelliot.github.io/general/vtable/" />
 
 
-<meta property="og:updated_time" content="2024-08-16T13:46:48-05:00" />
+<meta property="og:updated_time" content="2025-03-27T12:34:23-05:00" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://mrdrelliot.github.io/sitemap.xml' />
@@ -550,15 +550,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
                 <div class="post">
   <div class="info">
   <h1 class="post-title">
-    <a href="https://mrdrelliot.github.io/general/inheritenceoveruse/">Overuse of Inheritence, alternatives.</a>
+    <a href="https://mrdrelliot.github.io/general/vtable/">Fun with V-Tables</a>
   </h1>
 
   <div class="headline">
     <div>
       
       
-      <time datetime=" 2024-08-16T13:46:48-0500" class="post-date">
-        August 16, 2024
+      <time datetime=" 2025-03-27T12:34:23-0500" class="post-date">
+        March 27, 2025
       </time>
       
       <span> - </span>
@@ -567,7 +567,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
           
         
 
-        <span>4 mins read</span>
+        <span>5 mins read</span>
       </span>
     </div>
 
@@ -580,42 +580,104 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
   
 </div>
 
-  <p>Inheritance in object-oriented programming <strong>(OOP)</strong> is a fundamental concept that is deeply embedded in the design of Unreal Engine, and in many cases, it&rsquo;s an elegant and powerful tool. However, like any tool, it can be overused, leading developers into a trap that can complicate development and maintenance in the long run.</p>
-<h3 id="the-trap-of-overusing-inheritance">The Trap of Overusing Inheritance</h3>
-<p>Inheritance is often the go-to solution for sharing functionality across different classes. While it provides a straightforward way to extend and modify behavior, over-relying on it can lead to a rigid and tightly coupled codebase. This rigidity can make your codebase inflexible, harder to maintain, and challenging to extend. When you heavily depend on inheritance, you might find yourself in a situation where changing a base class can have far-reaching and unintended consequences across your entire project.</p>
-<h3 id="the-modular-approach-a-look-at-the-gameplay-ability-system">The Modular Approach: A Look at the Gameplay Ability System</h3>
-<p>A prime example of avoiding the pitfalls of overusing inheritance is Unreal Engine&rsquo;s <strong>Gameplay Ability System (GAS)</strong>. GAS is designed to manage complex character abilities in a modular and decoupled way, which contrasts sharply with inheritance-heavy designs. In GAS, each ability is a self-contained unit that operates independently, without direct references to other abilities or game systems.</p>
-<blockquote>
-<p>People always try do that, the first thing they try is-
-&ldquo;Where is the handle of the ability?&rdquo;, and &ldquo;How I know the reference of the ability?&rdquo;.
--Middle</p>
-</blockquote>
-<p>When developers first approach GAS, they often ask, &ldquo;Where is the handle of the ability?&rdquo; or &ldquo;How do I know the reference of the ability?&rdquo; This mindset reflects a more traditional, inheritance-based approach. However, GAS encourages a modular design where abilities are encapsulated and interacted with through predefined interfaces and events, not direct modifications. This decoupled approach is similar to <strong>fragment design</strong>, emphasizing composition over inheritance and ensuring that each part of the system can evolve independently without breaking other parts.</p>
-<h3 id="alternatives-to-inheritance">Alternatives to Inheritance</h3>
-<p>To avoid the pitfalls of overusing inheritance, it&rsquo;s essential to explore and utilize other design paradigms. One such approach is <strong>fragment design</strong>, which I personally favor. This style emphasizes breaking down functionality into smaller, reusable components that can be composed together in flexible ways.</p>
-<p><strong>Fragment design</strong> allows you to create a more modular and decoupled system. In Unreal Engine, this can be achieved through the use of <strong>Instanced UObjects</strong> and <strong>FInstancedStructs</strong>. These can encapsulate specific pieces of functionality, which can then be attached to different actors or used across different systems without the need for a shared base class. This approach minimizes dependencies between classes and encourages composition over inheritance.</p>
-<p>For larger systems, <strong>UActorComponents</strong> are another powerful tool in Unreal Engine. They can be individually placed on actors, each providing a specific piece of functionality. By utilizing components, you can avoid the pitfalls of deep inheritance hierarchies, creating actors that are flexible and easily extended without being tied to a common base class.</p>
-<h3 id="the-problem-with-data-handlesinjection">The Problem with Data Handles/Injection</h3>
-<p>While fragment design offers a compelling alternative to inheritance, another approach that has gained popularity is the use of <strong>data handles</strong> or <strong>dependency injection</strong>. However, I believe that this approach can be even more problematic than inheritance. Data injection often leads to hidden dependencies and can make it difficult to trace how data flows through your system. This can create a codebase that is hard to debug and maintain, as the relationships between objects become obscured.</p>
-<h3 id="the-role-of-interfaces">The Role of Interfaces</h3>
-<p>Interfaces are another tool often used to reduce the reliance on inheritance by defining a contract that multiple classes can implement. However, they are not a silver bullet. Overuse of interfaces can lead to its own set of problems, particularly in Unreal Engine. Interfaces can make your code harder to understand, as you might end up with a proliferation of small, single-purpose interfaces that can complicate your class design.</p>
-<p>While interfaces have their place, they should be used judiciously. Instead of relying heavily on interfaces, I recommend focusing on a fragment-style design that encourages composition over inheritance and interface implementation.</p>
-<h3 id="the-long-term-benefits">The Long-Term Benefits</h3>
-<p>By limiting the use of inheritance and embracing modular, component-based designs, you can create a codebase that is more adaptable and easier to maintain. In the long run, this approach will save you time and effort as your project grows in scope and complexity. Unreal Engine provides a wealth of tools and patterns that support this style of development, from instanced objects and structs to actor components and interfaces.</p>
-<p>In summary, while inheritance is a powerful feature of OOP and Unreal Engine, it&rsquo;s essential to be mindful of its limitations. By exploring other programming styles, such as fragment design and component-based architecture, you can build a more flexible and maintainable framework for your games. Avoid the trap of deep inheritance hierarchies and instead strive for a modular approach that will serve you well throughout the lifecycle of your projects.</p>
+  <h1 id="fun-with-v-tables">Fun with V-Tables!</h1>
+<hr>
+<ul>
+<li>Have you ever wanted to access a function, but you couldn&rsquo;t because the function is private? :/</li>
+<li>Have you wanted to <em>replace</em> a function in a class?</li>
+</ul>
+<p>Well, look no further! Today we&rsquo;re going to be talking about V-Table manipulation.<br>
+Please note, this is purely for fun and can be dangerous to do in production environments. I don&rsquo;t recommend using it for actual runtime use, but it can be an interesting exercise in how memory manipulation works and how you can use it to your advantage.</p>
+<hr>
+<h2 id="what-is-a-v-table">What is a V-Table?</h2>
+<p>A <strong>Virtual Table</strong> (or V-Table) is an essential concept in C++ for implementing <strong>polymorphism</strong>. It’s a data structure used to support dynamic dispatch for virtual functions. When you define a class with virtual functions, the compiler generates a V-Table for that class to keep track of the addresses of those virtual functions. At runtime, the V-Table is used to decide which function to call based on the type of the object, allowing polymorphism to work correctly.</p>
+<h3 id="how-does-it-work">How does it work?</h3>
+<p>Here’s how a V-Table works:</p>
+<ul>
+<li>When a class has virtual functions, the compiler creates a special <strong>V-Table</strong> for it.</li>
+<li>Each entry in the V-Table points to a corresponding virtual function for that class.</li>
+<li>When a virtual function is called on an object, the program uses the V-Table to look up the function pointer, then calls the function based on the correct type.</li>
+</ul>
+<p>In other words, when you have a base class with a virtual function, the V-Table is what makes sure that the right derived class function gets called at runtime, even if the actual object type is different from the type of the reference or pointer.</p>
+<hr>
+<h2 id="sniping-the-v-table">Sniping the V-Table</h2>
+<p>Now, here’s where the fun begins. What if you wanted to <strong>replace</strong> a function in a class at runtime? Could you do that? With a little bit of memory manipulation, you can! Let&rsquo;s take a look at how we can do this in code:</p>
+<p>We’ll modify the V-Table for an object and replace the address of the virtual function with one of our own choosing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;Windows.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeBase</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> VirtualFunction()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello I&#39;m virtual&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">CustomFunction</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello, I&#39;ve been replaced!&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    SomeBase<span style="color:#f92672">*</span> obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SomeBase(); <span style="color:#75715e">// Allocate on the heap instead of stack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Access the VTable by treating the object as a pointer to a pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span><span style="color:#f92672">**</span> vtable <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(<span style="color:#66d9ef">void</span><span style="color:#f92672">***</span>)obj;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Change memory protection to allow write access to the VTable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    DWORD oldProtect;
+</span></span><span style="display:flex;"><span>    VirtualProtect(<span style="color:#f92672">&amp;</span>vtable[<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>), PAGE_EXECUTE_READWRITE, <span style="color:#f92672">&amp;</span>oldProtect);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Replace the first entry in the VTable with our custom function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    vtable[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>CustomFunction;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Call the virtual function (it should now call our custom function)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> obj<span style="color:#f92672">-&gt;</span>VirtualFunction() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;  <span style="color:#75715e">// Expected output: &#34;Hello, I&#39;ve been replaced!&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Restore the original memory protection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    VirtualProtect(<span style="color:#f92672">&amp;</span>vtable[<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>), oldProtect, <span style="color:#f92672">&amp;</span>oldProtect);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> obj; <span style="color:#75715e">// Clean up the heap-allocated object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="explanation">Explanation:</h3>
+<ol>
+<li><strong>V-Table Access</strong>: We first access the V-Table for the object by treating the object as a pointer to a pointer (<code>void** vtable = *(void***)obj;</code>).</li>
+<li><strong>Memory Protection</strong>: To modify the V-Table, we use <code>VirtualProtect</code> to change the memory protection of the V-Table to <code>PAGE_EXECUTE_READWRITE</code>, allowing us to overwrite the function pointer.</li>
+<li><strong>Replacing the Function Pointer</strong>: We replace the first entry in the V-Table (which corresponds to the <code>VirtualFunction</code>) with our own custom function.</li>
+<li><strong>Call the Function</strong>: When we call <code>obj-&gt;VirtualFunction()</code>, it calls our custom function instead of the original virtual function.</li>
+<li><strong>Restore Protection</strong>: Finally, we restore the original memory protection using <code>VirtualProtect</code> again.</li>
+</ol>
+<hr>
+<h2 id="why-does-this-work">Why Does This Work?</h2>
+<p>This works because C++ uses a V-Table to handle dynamic dispatch for virtual functions. By replacing the function pointer in the V-Table, we can redirect calls to our own function. This is a form of &ldquo;sniping&rdquo; the V-Table, where we modify an object&rsquo;s internal function dispatch table to point to a different function.</p>
+<hr>
+<h2 id="a-word-of-caution">A Word of Caution</h2>
+<p>While it’s fun to play around with V-Table manipulation, it&rsquo;s important to note that doing this in real applications can lead to unpredictable behavior, crashes, or memory corruption. This technique can easily break if the compiler or platform changes the way it handles V-Tables, and the object model may vary based on compiler settings, platform, or even optimization flags.</p>
+<p>Here are a few things to consider:</p>
+<ul>
+<li><strong>Stability</strong>: Replacing function pointers in the V-Table can destabilize the program, especially when you&rsquo;re dealing with polymorphic classes or objects with complex inheritance hierarchies.</li>
+<li><strong>Compatibility</strong>: This code might break on different compilers or platforms, as not all compilers handle V-Tables the same way.</li>
+<li><strong>Safety</strong>: Modifying V-Tables directly can result in <strong>undefined behavior</strong> and is generally discouraged in production code. Use this technique only for educational purposes or in very controlled environments.</li>
+</ul>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>V-Table manipulation is a powerful, albeit dangerous, technique that allows you to modify the behavior of classes at runtime. Whether you want to replace a function for debugging, hacking, or learning purposes, this technique offers an interesting look under the hood of C++&rsquo;s polymorphism.</p>
+<p>That being said, <strong>use this power wisely</strong> and remember, there’s a fine line between hacking and hacking yourself into a corner!</p>
+<p>Happy coding, and have fun with V-Tables!</p>
 
   
   <hr>
 <div class="footer">
     
 	    
-            <a class="previous-post" href="https://mrdrelliot.github.io/general/lambdadangers/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>The dangers of Lambdas</a>
+            <a class="previous-post" href="https://mrdrelliot.github.io/general/bpvscpp/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Blueprint vs C++: Different Tools for Different...</a>
         
 	    
-            <div class="next-post">
-                <a href="https://mrdrelliot.github.io/general/constexpr/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Constexpr and Consteval</a>
-            </div>
-        
     
 </div>
 
@@ -629,16 +691,19 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
       <h4 id="contents"></h4>
       <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#what-is-a-v-table">What is a V-Table?</a>
       <ul>
-        <li><a href="#the-trap-of-overusing-inheritance">The Trap of Overusing Inheritance</a></li>
-        <li><a href="#the-modular-approach-a-look-at-the-gameplay-ability-system">The Modular Approach: A Look at the Gameplay Ability System</a></li>
-        <li><a href="#alternatives-to-inheritance">Alternatives to Inheritance</a></li>
-        <li><a href="#the-problem-with-data-handlesinjection">The Problem with Data Handles/Injection</a></li>
-        <li><a href="#the-role-of-interfaces">The Role of Interfaces</a></li>
-        <li><a href="#the-long-term-benefits">The Long-Term Benefits</a></li>
+        <li><a href="#how-does-it-work">How does it work?</a></li>
       </ul>
     </li>
+    <li><a href="#sniping-the-v-table">Sniping the V-Table</a>
+      <ul>
+        <li><a href="#explanation">Explanation:</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-does-this-work">Why Does This Work?</a></li>
+    <li><a href="#a-word-of-caution">A Word of Caution</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>

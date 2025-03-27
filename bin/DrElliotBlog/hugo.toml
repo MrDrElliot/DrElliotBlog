@@ -12,7 +12,7 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
     brand = "Dr. Elliot"                      # name of your site - appears in the sidebar
     remote_brand_image = 'https://github.com/mrdrelliot.png' # path to a remote file
     # brand_image = "/images/test.jpg"    # path to the image shown in the sidebar
-    description = "A collection of things I've learned using Unreal Engine." # Used as default meta description if not specified in front matter
+    description = "A collection of things I've learned." # Used as default meta description if not specified in front matter
     dark_mode = true                      # optional - defaults to false
     favicon = "favicon.png"             # path to favicon (defaults to favicon.png)
 

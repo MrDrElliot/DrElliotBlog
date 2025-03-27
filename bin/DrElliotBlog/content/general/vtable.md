@@ -1,7 +1,7 @@
-+++  
-title = "Fun with V-Tables!"  
-date = 2025-03-27T13:46:48-05:00  
-draft = false  
++++
+title = 'Fun with V-Tables'
+date = 2025-03-27T12:34:23-05:00
+draft = false
 +++
 
 # Fun with V-Tables!
@@ -114,3 +114,4 @@ V-Table manipulation is a powerful, albeit dangerous, technique that allows you 
 That being said, **use this power wisely** and remember, there’s a fine line between hacking and hacking yourself into a corner!
 
 Happy coding, and have fun with V-Tables!
+

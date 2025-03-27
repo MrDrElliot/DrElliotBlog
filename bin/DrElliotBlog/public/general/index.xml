@@ -6,8 +6,15 @@
     <description>Recent content in General on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Aug 2024 13:46:48 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 27 Mar 2025 12:34:23 -0500</lastBuildDate>
     <atom:link href="https://mrdrelliot.github.io/general/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fun with V-Tables</title>
+      <link>https://mrdrelliot.github.io/general/vtable/</link>
+      <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/vtable/</guid>
+      <description>Fun with V-Tables! Have you ever wanted to access a function, but you couldn&amp;rsquo;t because the function is private? :/ Have you wanted to replace a function in a class? Well, look no further! Today we&amp;rsquo;re going to be talking about V-Table manipulation.&#xA;Please note, this is purely for fun and can be dangerous to do in production environments. I don&amp;rsquo;t recommend using it for actual runtime use, but it can be an interesting exercise in how memory manipulation works and how you can use it to your advantage.</description>
+    </item>
     <item>
       <title>Blueprint vs C&#43;&#43;: Different Tools for Different Jobs</title>
       <link>https://mrdrelliot.github.io/general/bpvscpp/</link>
