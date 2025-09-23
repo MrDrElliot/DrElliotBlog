@@ -6,8 +6,15 @@
     <description>Recent content on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 27 Mar 2025 12:34:23 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 23 Sep 2025 12:34:23 -0500</lastBuildDate>
     <atom:link href="https://mrdrelliot.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stop Being a Condescending Asshole in Programming Communities</title>
+      <link>https://mrdrelliot.github.io/general/answering/</link>
+      <pubDate>Tue, 23 Sep 2025 12:34:23 -0500</pubDate>
+      <guid>https://mrdrelliot.github.io/general/answering/</guid>
+      <description>Stop Being a Condescending Asshole in Programming Communities We’ve all been there:&#xA;Q: &amp;ldquo;Hey, I’m running into an issue with X, has anyone seen this before?&amp;rdquo;&#xA;A: &amp;ldquo;Why would you even do that? That’s wrong.&amp;rdquo;&#xA;And just like that, a genuine question gets slapped down with arrogance instead of help.&#xA;This happens constantly in programming Discords, and other communities. The attitude usually comes from the same place: ego. For some people, programming isn’t just problem-solving, it’s a stage for flexing intelligence at the expense of others.</description>
+    </item>
     <item>
       <title>Fun with V-Tables</title>
       <link>https://mrdrelliot.github.io/general/vtable/</link>
