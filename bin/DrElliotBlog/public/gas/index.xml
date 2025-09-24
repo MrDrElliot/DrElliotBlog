@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gas on Dr. Elliot</title>
-    <link>http://localhost:1313/gas/</link>
+    <link>https://dr-elliot.com/gas/</link>
     <description>Recent content in Gas on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 16 Aug 2024 12:29:09 -0500</lastBuildDate>
-    <atom:link href="http://localhost:1313/gas/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dr-elliot.com/gas/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Intro</title>
-      <link>http://localhost:1313/gas/intro/</link>
+      <link>https://dr-elliot.com/gas/intro/</link>
       <pubDate>Fri, 16 Aug 2024 12:29:09 -0500</pubDate>
-      <guid>http://localhost:1313/gas/intro/</guid>
+      <guid>https://dr-elliot.com/gas/intro/</guid>
       <description></description>
     </item>
   </channel>

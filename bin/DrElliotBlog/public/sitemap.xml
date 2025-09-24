@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://dr-elliot.com/</loc>
     <lastmod>2025-09-23T12:34:23-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/</loc>
+    <loc>https://dr-elliot.com/general/</loc>
     <lastmod>2025-09-23T12:34:23-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/answering/</loc>
+    <loc>https://dr-elliot.com/general/answering/</loc>
     <lastmod>2025-09-23T12:34:23-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/lumina/lumina/</loc>
+    <loc>https://dr-elliot.com/lumina/lumina/</loc>
     <lastmod>2025-09-23T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/lumina/</loc>
+    <loc>https://dr-elliot.com/lumina/</loc>
     <lastmod>2025-09-23T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/vtable/</loc>
+    <loc>https://dr-elliot.com/general/vtable/</loc>
     <lastmod>2025-03-27T12:34:23-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/</loc>
+    <loc>https://dr-elliot.com/memory/</loc>
     <lastmod>2024-09-29T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/movesemantics/</loc>
+    <loc>https://dr-elliot.com/memory/movesemantics/</loc>
     <lastmod>2024-09-29T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/optimization/</loc>
+    <loc>https://dr-elliot.com/optimization/</loc>
     <lastmod>2024-09-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/optimization/thecastscare/</loc>
+    <loc>https://dr-elliot.com/optimization/thecastscare/</loc>
     <lastmod>2024-09-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/tarrayallocators/</loc>
+    <loc>https://dr-elliot.com/memory/tarrayallocators/</loc>
     <lastmod>2024-08-16T14:31:08-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/templateobjecttypes/</loc>
+    <loc>https://dr-elliot.com/memory/templateobjecttypes/</loc>
     <lastmod>2024-08-16T14:31:08-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/softreferences/</loc>
+    <loc>https://dr-elliot.com/memory/softreferences/</loc>
     <lastmod>2024-08-16T14:31:08-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/bpvscpp/</loc>
+    <loc>https://dr-elliot.com/general/bpvscpp/</loc>
     <lastmod>2024-08-16T13:46:48-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/constexpr/</loc>
+    <loc>https://dr-elliot.com/general/constexpr/</loc>
     <lastmod>2024-08-16T13:46:48-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/inheritenceoveruse/</loc>
+    <loc>https://dr-elliot.com/general/inheritenceoveruse/</loc>
     <lastmod>2024-08-16T13:46:48-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/general/lambdadangers/</loc>
+    <loc>https://dr-elliot.com/general/lambdadangers/</loc>
     <lastmod>2024-08-16T13:46:48-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/gas/</loc>
+    <loc>https://dr-elliot.com/gas/</loc>
     <lastmod>2024-08-16T12:29:09-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/gas/intro/</loc>
+    <loc>https://dr-elliot.com/gas/intro/</loc>
     <lastmod>2024-08-16T12:29:09-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/memory/buffers/</loc>
+    <loc>https://dr-elliot.com/memory/buffers/</loc>
     <lastmod>2024-08-16T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://dr-elliot.com/about/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/aboutme/</loc>
+    <loc>https://dr-elliot.com/about/aboutme/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/intro/</loc>
+    <loc>https://dr-elliot.com/intro/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/intro/intro/</loc>
+    <loc>https://dr-elliot.com/intro/intro/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/networking/networkserialization/</loc>
+    <loc>https://dr-elliot.com/networking/networkserialization/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/networking/</loc>
+    <loc>https://dr-elliot.com/networking/</loc>
     <lastmod>2024-08-16T10:28:54-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/series/</loc>
+    <loc>https://dr-elliot.com/series/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://dr-elliot.com/tags/</loc>
   </url>
 </urlset>
