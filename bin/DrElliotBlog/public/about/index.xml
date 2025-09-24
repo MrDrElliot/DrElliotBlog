@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on Dr. Elliot</title>
-    <link>https://dr-elliot.com/about/</link>
+    <link>http://localhost:1313/about/</link>
     <description>Recent content in About on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 16 Aug 2024 10:28:54 -0500</lastBuildDate>
-    <atom:link href="https://dr-elliot.com/about/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
-      <link>https://dr-elliot.com/about/aboutme/</link>
+      <link>http://localhost:1313/about/aboutme/</link>
       <pubDate>Fri, 16 Aug 2024 10:28:54 -0500</pubDate>
-      <guid>https://dr-elliot.com/about/aboutme/</guid>
+      <guid>http://localhost:1313/about/aboutme/</guid>
       <description>About Me Hello, and welcome to my blog!&#xA;I’m a self-taught programmer with a deep curiosity for how things work under the hood. Most of my time these days is spent on Lumina, my custom C++ game engine, a long-term project that combines my love for systems programming, graphics, and engine architecture.&#xA;Before Lumina, I released several projects built with Unreal Engine, which you can find on Steam:&#xA;The Other Side Just War Trains Egg Game Beyond Development Outside of programming, I’m a lifelong gamer inspired by the atmosphere and storytelling of classics like Fallout 3 and Fallout: New Vegas.</description>
     </item>
   </channel>

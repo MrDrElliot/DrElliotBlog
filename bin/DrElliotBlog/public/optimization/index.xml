@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Optimization on Dr. Elliot</title>
-    <link>https://dr-elliot.com/optimization/</link>
+    <link>http://localhost:1313/optimization/</link>
     <description>Recent content in Optimization on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 06 Sep 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://dr-elliot.com/optimization/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/optimization/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Cast Scare</title>
-      <link>https://dr-elliot.com/optimization/thecastscare/</link>
+      <link>http://localhost:1313/optimization/thecastscare/</link>
       <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://dr-elliot.com/optimization/thecastscare/</guid>
+      <guid>http://localhost:1313/optimization/thecastscare/</guid>
       <description>Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it&amp;rsquo;s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There&amp;rsquo;s no shortage of YouTube videos with clickbait titles like &amp;ldquo;Casting is so bad, NEVER use it in your games!&amp;rdquo; (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so.</description>
     </item>
   </channel>

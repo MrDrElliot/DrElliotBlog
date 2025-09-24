@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lumina on Dr. Elliot</title>
-    <link>https://dr-elliot.com/lumina/</link>
+    <link>http://localhost:1313/lumina/</link>
     <description>Recent content in Lumina on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 23 Sep 2025 12:28:45 -0500</lastBuildDate>
-    <atom:link href="https://dr-elliot.com/lumina/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/lumina/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Lumina</title>
-      <link>https://dr-elliot.com/lumina/lumina/</link>
+      <link>http://localhost:1313/lumina/lumina/</link>
       <pubDate>Tue, 23 Sep 2025 12:28:45 -0500</pubDate>
-      <guid>https://dr-elliot.com/lumina/lumina/</guid>
+      <guid>http://localhost:1313/lumina/lumina/</guid>
       <description>Lumina Game Engine Lumina is my ongoing game engine project written in C++. I’ve been working on it for about two years, and what started as a side experiment has turned into one of my biggest passions.&#xA;Originally, I was more interested in game development itself, making projects, prototypes, and ideas come to life. But over time, I found that what really grabbed me wasn’t the games — it was the engines behind them.</description>
     </item>
   </channel>
