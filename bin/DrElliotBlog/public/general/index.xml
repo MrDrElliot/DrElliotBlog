@@ -2,52 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>General on Dr. Elliot</title>
-    <link>https://mrdrelliot.github.io/general/</link>
+    <link>https://dr-elliot.com/general/</link>
     <description>Recent content in General on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 23 Sep 2025 12:34:23 -0500</lastBuildDate>
-    <atom:link href="https://mrdrelliot.github.io/general/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dr-elliot.com/general/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Stop Being a Condescending Asshole in Programming Communities</title>
-      <link>https://mrdrelliot.github.io/general/answering/</link>
+      <link>https://dr-elliot.com/general/answering/</link>
       <pubDate>Tue, 23 Sep 2025 12:34:23 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/answering/</guid>
+      <guid>https://dr-elliot.com/general/answering/</guid>
       <description>Stop Being a Condescending Asshole in Programming Communities We’ve all been there:&#xA;Q: &amp;ldquo;Hey, I’m running into an issue with X, has anyone seen this before?&amp;rdquo;&#xA;A: &amp;ldquo;Why would you even do that? That’s wrong.&amp;rdquo;&#xA;And just like that, a genuine question gets slapped down with arrogance instead of help.&#xA;This happens constantly in programming Discords, and other communities. The attitude usually comes from the same place: ego. For some people, programming isn’t just problem-solving, it’s a stage for flexing intelligence at the expense of others.</description>
     </item>
     <item>
       <title>Fun with V-Tables</title>
-      <link>https://mrdrelliot.github.io/general/vtable/</link>
+      <link>https://dr-elliot.com/general/vtable/</link>
       <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/vtable/</guid>
+      <guid>https://dr-elliot.com/general/vtable/</guid>
       <description>Fun with V-Tables! Have you ever wanted to access a function, but you couldn&amp;rsquo;t because the function is private? :/ Have you wanted to replace a function in a class? Well, look no further! Today we&amp;rsquo;re going to be talking about V-Table manipulation.&#xA;Please note, this is purely for fun and can be dangerous to do in production environments. I don&amp;rsquo;t recommend using it for actual runtime use, but it can be an interesting exercise in how memory manipulation works and how you can use it to your advantage.</description>
     </item>
     <item>
       <title>Blueprint vs C&#43;&#43;: Different Tools for Different Jobs</title>
-      <link>https://mrdrelliot.github.io/general/bpvscpp/</link>
+      <link>https://dr-elliot.com/general/bpvscpp/</link>
       <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/bpvscpp/</guid>
+      <guid>https://dr-elliot.com/general/bpvscpp/</guid>
       <description>C++ Is Not Better Than Blueprint—They’re Just Different You’ve probably heard the argument before: “C++ is better than Blueprint.” Often, this comes from people who are new to using C++ in Unreal Engine and are riding the peak of the Dunning-Kruger effect.&#xA;The truth is, one isn’t better than the other—they’re just different. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C++ is superior to Blueprint, comes across as arrogant.</description>
     </item>
     <item>
       <title>Constexpr and Consteval</title>
-      <link>https://mrdrelliot.github.io/general/constexpr/</link>
+      <link>https://dr-elliot.com/general/constexpr/</link>
       <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/constexpr/</guid>
+      <guid>https://dr-elliot.com/general/constexpr/</guid>
       <description>Simple way to possibly increase some performance. This blog is a follow-up to this YouTube video: https://www.youtube.com/watch?v=8-VZoXn8f9U&#xA;Consider the following code:&#xA;// ConstexprExample.cpp : This file contains the &amp;#39;main&amp;#39; function. Program execution begins and ends there. // #include &amp;lt;iostream&amp;gt; #include &amp;lt;chrono&amp;gt; int Fibonacci(int n) { if (n &amp;lt;= 1) return n; return Fibonacci(n - 1) + Fibonacci(n - 2); } constexpr int Fibonacci_C(int n) { if (n &amp;lt;= 1) return n; return Fibonacci_C(n - 1) + Fibonacci_C(n - 2); } int main() { auto Start = std::chrono::high_resolution_clock::now(); constexpr int num = 25; constexpr int result_c = Fibonacci_C(num); std::cout &amp;lt;&amp;lt; &amp;#34;Constexpr Fibonacci: &amp;#34; &amp;lt;&amp;lt; result_c &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;; std::cout &amp;lt;&amp;lt; &amp;#34;Time Taken: &amp;#34; &amp;lt;&amp;lt; std::chrono::duration_cast&amp;lt;std::chrono::microseconds&amp;gt;(std::chrono::high_resolution_clock::now() - Start).</description>
     </item>
     <item>
       <title>Overuse of Inheritence, alternatives.</title>
-      <link>https://mrdrelliot.github.io/general/inheritenceoveruse/</link>
+      <link>https://dr-elliot.com/general/inheritenceoveruse/</link>
       <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/inheritenceoveruse/</guid>
+      <guid>https://dr-elliot.com/general/inheritenceoveruse/</guid>
       <description>Inheritance in object-oriented programming (OOP) is a fundamental concept that is deeply embedded in the design of Unreal Engine, and in many cases, it&amp;rsquo;s an elegant and powerful tool. However, like any tool, it can be overused, leading developers into a trap that can complicate development and maintenance in the long run.&#xA;The Trap of Overusing Inheritance Inheritance is often the go-to solution for sharing functionality across different classes. While it provides a straightforward way to extend and modify behavior, over-relying on it can lead to a rigid and tightly coupled codebase.</description>
     </item>
     <item>
       <title>The dangers of Lambdas</title>
-      <link>https://mrdrelliot.github.io/general/lambdadangers/</link>
+      <link>https://dr-elliot.com/general/lambdadangers/</link>
       <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
-      <guid>https://mrdrelliot.github.io/general/lambdadangers/</guid>
+      <guid>https://dr-elliot.com/general/lambdadangers/</guid>
       <description>Using Lambdas in Unreal can be dangerous! Lambdas, or anonymous functions, in Unreal Engine can be very useful for writing concise and flexible code. However, they come with certain dangers, particularly when dealing with the lifetime of objects and capturing variables by reference. Here’s why:&#xA;1. Capturing by Reference and Object Lifetimes When you use lambdas in Unreal Engine, you might capture variables by reference, which is common for avoiding unnecessary copying.</description>
     </item>
   </channel>
