@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Templated Object Types | Dr. Elliot</title>
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" /><meta property="og:url" content="https://www.dr-elliot.com/posts/memory/templateobjecttypes/">
+  <meta property="og:site_name" content="Dr. Elliot">
+  <meta property="og:title" content="Templated Object Types">
+  <meta property="og:description" content="Unreal Engine provides various templated object pointer types that help manage memory and references to UObject instances in a safe and efficient manner. These templated types are vital for ensuring the stability and performance of your Unreal Engine projects. In this post, we’ll explore the most common templated object pointer types, explain what they do, and discuss when to use them.
+1. TObjectPtr&lt;&gt; Purpose: TObjectPtr is a smart pointer introduced in Unreal Engine 5, designed to replace raw pointers for referencing UObject types.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-16T14:31:08-05:00">
+    <meta property="article:modified_time" content="2024-08-16T14:31:08-05:00">
+    <meta property="article:tag" content="UnrealEngine">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Templated Object Types">
+  <meta name="twitter:description" content="Unreal Engine provides various templated object pointer types that help manage memory and references to UObject instances in a safe and efficient manner. These templated types are vital for ensuring the stability and performance of your Unreal Engine projects. In this post, we’ll explore the most common templated object pointer types, explain what they do, and discuss when to use them.
+1. TObjectPtr&lt;&gt; Purpose: TObjectPtr is a smart pointer introduced in Unreal Engine 5, designed to replace raw pointers for referencing UObject types.">
+
+      <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
+
+      <script src="/js/bundle.cc8ae9952dbfb731affafabdf26e5c60a6910047ff59ccdeaf1daebaa26c8830.js" integrity="sha256-zIrplS2/tzGv&#43;vq98m5cYKaRAEf/Wczerx2uuqJsiDA=" crossorigin="anonymous"></script><script defer src="/js/search/flexsearch.compact.5e0de3b335e5c523c7cf45473dc43fccb6c75f64a9d59cc04a6eccbb7c25eb49.js" integrity="sha256-Xg3jszXlxSPHz0VHPcQ/zLbHX2Sp1ZzASm7Mu3wl60k="></script>
+<script defer src="/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js" integrity="sha256-HZgPhN8R8&#43;t8jF8X9UHUmgYRYI3xed10&#43;n8GIl61as4="></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+</head>
+<body class="notransition">
+  <div id="container">
+    <header id="main-header"><div role="navigation" aria-label="Main">
+  <div class="nav-left">
+    <a href="https://www.dr-elliot.com/" style="color: inherit;">Dr. Elliot</a>
+  </div>
+  <div class="nav-right">
+    <div style="position:absolute;width:0px;height:0px;">
+      <div id="nav-dropdown-menu" class="hidden" href="#">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    </div>
+    <a id="nav-dropdown-button" href="#"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+    <div id="nav-menu">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    <a id="theme-switcher" href="#">
+<svg class="light-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+  </div>
+</div>
+</header>
+    <div class="flex grow">
+      <div id="main-pane">
+        <main id="main-content"><div class="single-header">
+<ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content='1' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/posts/">
+        <span itemprop="name">Posts</span>
+      </a>
+      <meta itemprop="position" content='2' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+</ol>
+<h1>Templated Object Types</h1><time class="dim" datetime="2024-08-16T14:31:08-05:00">August 16, 2024</time><div class="term-container"><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/unrealengine/">#UnrealEngine</a>
+      </div></ol></div>
+
+  <section class="page-section"><hr>
+<p>Unreal Engine provides various templated object pointer types that help manage memory and references to <code>UObject</code> instances in a safe and efficient manner. These templated types are vital for ensuring the stability and performance of your Unreal Engine projects. In this post, we&rsquo;ll explore the most common templated object pointer types, explain what they do, and discuss when to use them.</p>
+<h3 id="1-tobjectptr">1. <strong>TObjectPtr&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TObjectPtr</code> is a smart pointer introduced in Unreal Engine 5, designed to replace raw pointers for referencing <code>UObject</code> types. It provides enhanced memory safety by automatically handling the lifetime of the referenced object.
+It was introduced in 5.0 and is now becoming the new norm, especially with the new <code>incremental garbage collection</code> being implemented in Unreal Engine 5.4.</p>
+<p><strong>Use Case:</strong> Use <code>TObjectPtr</code> when you want to ensure safe and efficient references to <code>UObject</code> instances, particularly when ownership semantics are important, and to be allow for reference tracking.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span> MyTexture;
+</span></span></code></pre></div><h3 id="2-tweakobjectptr">2. <strong>TWeakObjectPtr&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TWeakObjectPtr</code> is a non-owning smart pointer that references a <code>UObject</code> without preventing it from being garbage collected. It allows you to check if the object is still valid before accessing it.</p>
+<p><strong>Use Case:</strong> Use <code>TWeakObjectPtr</code> when you need a reference to a <code>UObject</code> that might be destroyed or unloaded, and you don&rsquo;t want to keep it alive unnecessarily.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TWeakObjectPtr<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span> WeakActorPtr;
+</span></span></code></pre></div><h3 id="3-tsoftobjectptr">3. <strong>TSoftObjectPtr&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TSoftObjectPtr</code> is a smart pointer that holds a reference to a <code>UObject</code> asset by its path, without loading the asset into memory until it&rsquo;s explicitly needed. This is useful for optimizing memory usage.</p>
+<p><strong>Use Case:</strong> Use <code>TSoftObjectPtr</code> for assets that are not immediately needed, such as optional or large assets, where you want to load them only when required.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TSoftObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span> SoftTexture;
+</span></span></code></pre></div><h3 id="4-tsoftclassptr">4. <strong>TSoftClassPtr&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TSoftClassPtr</code> is similar to <code>TSoftObjectPtr</code>, but it specifically references a class instead of an object. It holds the class by its path and loads it only when necessary.</p>
+<p><strong>Use Case:</strong> Use <code>TSoftClassPtr</code> when you want to reference a class that may not be needed immediately, such as a blueprint class or a specific gameplay actor class.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TSoftClassPtr<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span> SoftActorClass;
+</span></span></code></pre></div><h3 id="5-tsubclassof">5. <strong>TSubclassOf&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TSubclassOf</code> is a templated class used to store references to classes derived from a specified base class. It ensures that only valid subclasses are assigned to the variable, which is particularly useful for blueprint interactions.</p>
+<p><strong>Use Case:</strong> Use <code>TSubclassOf</code> when you need to reference a class type, especially when dealing with blueprints or dynamically spawning actors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TSubclassOf<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span> ActorSubclass;
+</span></span></code></pre></div><h3 id="6-tlazyobjectptr">6. <strong>TLazyObjectPtr&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TLazyObjectPtr</code> is designed to handle objects that might be unloaded and reloaded during gameplay. It maintains a reference to the object even if it is unloaded and can resolve it when the object is reloaded.</p>
+<p><strong>Use Case:</strong> Use <code>TLazyObjectPtr</code> when referencing objects that might be dynamically loaded or unloaded, such as with level streaming or large datasets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TLazyObjectPtr<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span> LazyActorPtr;
+</span></span></code></pre></div><h3 id="7-tscriptinterface">7. <strong>TScriptInterface&lt;&gt;</strong></h3>
+<p><strong>Purpose:</strong> <code>TScriptInterface</code> is a templated type that holds a reference to an object that implements a specific interface. It allows interaction with the interface without knowing the underlying object type.</p>
+<p><strong>Use Case:</strong> Use <code>TScriptInterface</code> when you need to interact with different objects through a common interface, especially useful in blueprint scripting and interface-driven design.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TScriptInterface<span style="color:#f92672">&lt;</span>IMyInterface<span style="color:#f92672">&gt;</span> InterfacePtr;
+</span></span></code></pre></div><h3 id="conclusion">Conclusion</h3>
+<p>Each of these templated object pointer types in Unreal Engine serves a specific purpose in managing references to <code>UObject</code> instances, ensuring safe memory management and optimal performance. Understanding when and how to use these types is essential for effective Unreal Engine development. By mastering these pointers, you can write more robust, efficient, and maintainable code.</p>
+</section>
+
+  <section id="comments">
+    <script src="https://utteranc.es/client.js"
+        repo="MrDrElliot/DrElliotBlog"
+        issue-term="pathname"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+</main>
+        <footer id="main-footer"><div class="footer">
+  <a href="#">Scroll to Top</a>
+  <div class="footer-copyright">
+    <div class="dim">© 2025 Dr. Elliot</div>
+    <div>Made with ❤️ and powered by <a href="https://github.com/math-queiroz/rusty-typewriter" target="_blank">Rusty Typewriter</a> theme for <a href="https://gohugo.io/" target="_blank">Hugo</a></div>
+  </div>
+</div>
+</footer>
+      </div><aside id="side-pane" class="side-sticky"><div class="side-details">
+    <span>578 words</span>
+    <span>3 - 4 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-tobjectptr">1. <strong>TObjectPtr&lt;&gt;</strong></a></li>
+        <li><a href="#2-tweakobjectptr">2. <strong>TWeakObjectPtr&lt;&gt;</strong></a></li>
+        <li><a href="#3-tsoftobjectptr">3. <strong>TSoftObjectPtr&lt;&gt;</strong></a></li>
+        <li><a href="#4-tsoftclassptr">4. <strong>TSoftClassPtr&lt;&gt;</strong></a></li>
+        <li><a href="#5-tsubclassof">5. <strong>TSubclassOf&lt;&gt;</strong></a></li>
+        <li><a href="#6-tlazyobjectptr">6. <strong>TLazyObjectPtr&lt;&gt;</strong></a></li>
+        <li><a href="#7-tscriptinterface">7. <strong>TScriptInterface&lt;&gt;</strong></a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h3>Related</h3>
+    <ul><li><a href="/posts/memory/tarrayallocators/">TArray Allocators</a></li><li><a href="/posts/memory/softreferences/">What Are Soft References?</a></li><li><a href="/posts/general/bpvscpp/">Blueprint vs C&#43;&#43;</a></li><li><a href="/posts/gas/intro/">Intro to GAS</a></li><li><a href="/posts/memory/buffers/">Working With Buffers</a></li></ul></aside></div>
+  </div>
+</body>
+</html>

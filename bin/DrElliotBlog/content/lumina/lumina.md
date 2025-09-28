@@ -1,10 +1,10 @@
 +++
-title = "About Lumina"
+title = "Lumina Game Engine"
 date = 2025-09-23T12:28:45-05:00
-draft = false
+tags = ['GameEngine','Lumina','Rendering','Vulkan']
+featured = true
+comments = true
 +++
-
-# Lumina Game Engine
 
 Lumina is my ongoing game engine project written in C++. I’ve been working on it for about two years, and what started as a side experiment has turned into one of my biggest passions.
 

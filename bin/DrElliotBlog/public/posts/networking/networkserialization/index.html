@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Network Serialization | Dr. Elliot</title>
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" /><meta property="og:url" content="https://www.dr-elliot.com/posts/networking/networkserialization/">
+  <meta property="og:site_name" content="Dr. Elliot">
+  <meta property="og:title" content="Network Serialization">
+  <meta property="og:description" content="Hello, I wanted to talk about some ways you can improve networking performance in C&#43;&#43; by understanding and implementing efficient network serialization in Unreal Engine. Effective serialization is critical for transmitting data across the network without unnecessary overhead, especially in multiplayer games where bandwidth is limited.
+This article assumes basic familiarization with Unreal Engine’s networking system.
+What is Network Serialization? Serialization in the context of networking refers to the process of converting data into a format that can be easily transmitted over a network and reconstructed later.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-16T10:28:54-05:00">
+    <meta property="article:modified_time" content="2024-08-16T10:28:54-05:00">
+    <meta property="article:tag" content="UnrealEngine">
+    <meta property="article:tag" content="Networking">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Network Serialization">
+  <meta name="twitter:description" content="Hello, I wanted to talk about some ways you can improve networking performance in C&#43;&#43; by understanding and implementing efficient network serialization in Unreal Engine. Effective serialization is critical for transmitting data across the network without unnecessary overhead, especially in multiplayer games where bandwidth is limited.
+This article assumes basic familiarization with Unreal Engine’s networking system.
+What is Network Serialization? Serialization in the context of networking refers to the process of converting data into a format that can be easily transmitted over a network and reconstructed later.">
+
+      <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
+
+      <script src="/js/bundle.cc8ae9952dbfb731affafabdf26e5c60a6910047ff59ccdeaf1daebaa26c8830.js" integrity="sha256-zIrplS2/tzGv&#43;vq98m5cYKaRAEf/Wczerx2uuqJsiDA=" crossorigin="anonymous"></script><script defer src="/js/search/flexsearch.compact.5e0de3b335e5c523c7cf45473dc43fccb6c75f64a9d59cc04a6eccbb7c25eb49.js" integrity="sha256-Xg3jszXlxSPHz0VHPcQ/zLbHX2Sp1ZzASm7Mu3wl60k="></script>
+<script defer src="/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js" integrity="sha256-HZgPhN8R8&#43;t8jF8X9UHUmgYRYI3xed10&#43;n8GIl61as4="></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+</head>
+<body class="notransition">
+  <div id="container">
+    <header id="main-header"><div role="navigation" aria-label="Main">
+  <div class="nav-left">
+    <a href="https://www.dr-elliot.com/" style="color: inherit;">Dr. Elliot</a>
+  </div>
+  <div class="nav-right">
+    <div style="position:absolute;width:0px;height:0px;">
+      <div id="nav-dropdown-menu" class="hidden" href="#">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    </div>
+    <a id="nav-dropdown-button" href="#"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+    <div id="nav-menu">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    <a id="theme-switcher" href="#">
+<svg class="light-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+  </div>
+</div>
+</header>
+    <div class="flex grow">
+      <div id="main-pane">
+        <main id="main-content"><div class="single-header">
+<ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content='1' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/posts/">
+        <span itemprop="name">Posts</span>
+      </a>
+      <meta itemprop="position" content='2' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+</ol>
+<h1>Network Serialization</h1><time class="dim" datetime="2024-08-16T10:28:54-05:00">August 16, 2024</time><div class="term-container"><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/unrealengine/">#UnrealEngine</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/networking/">#Networking</a>
+      </div></ol></div>
+
+  <section class="page-section"><p>Hello, I wanted to talk about some ways you can improve networking performance in C++ by understanding and implementing efficient network serialization in Unreal Engine. Effective serialization is critical for transmitting data across the network without unnecessary overhead, especially in multiplayer games where bandwidth is limited.</p>
+<p>This article assumes basic familiarization with Unreal Engine&rsquo;s networking system.</p>
+<h3 id="what-is-network-serialization">What is Network Serialization?</h3>
+<p>Serialization in the context of networking refers to the process of converting data into a format that can be easily transmitted over a network and reconstructed later. In Unreal Engine, this process is crucial for ensuring that game states, variables, and objects are accurately synchronized between clients and servers.</p>
+<h3 id="unreal-engines-built-in-serialization">Unreal Engine&rsquo;s Built-in Serialization</h3>
+<p>Unreal Engine provides built-in support for serialization with its powerful reflection system. This system can automatically serialize properties marked with specific macros, making it easy to sync variables across the network.</p>
+<p>Here’s an example of a simple struct that can be serialized, and forcing it to be atomic:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FPlayerData</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    GENERATED_BODY()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Player Data&#34;</span>)
+</span></span><span style="display:flex;"><span>    int32 Health;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Player Data&#34;</span>)
+</span></span><span style="display:flex;"><span>    int32 Armor;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Player Data&#34;</span>)
+</span></span><span style="display:flex;"><span>    FVector Location;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Serializes the data for network transmission
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">friend</span> FArchive<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(FArchive<span style="color:#f92672">&amp;</span> Ar, FPlayerData<span style="color:#f92672">&amp;</span> Data)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Ar <span style="color:#f92672">&lt;&lt;</span> Data.Health;
+</span></span><span style="display:flex;"><span>        Ar <span style="color:#f92672">&lt;&lt;</span> Data.Armor;
+</span></span><span style="display:flex;"><span>        Ar <span style="color:#f92672">&lt;&lt;</span> Data.Location;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Ar;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>In this example, the <code>FPlayerData</code> struct contains the player&rsquo;s health, armor, and location. The <code>operator&lt;&lt;</code> overload is implemented to serialize these properties, ensuring that they can be packed into a network packet and sent over the network.</p>
+<p>A common point of confusion when first learning about any type of serialization in Unreal is the use of the <code>&lt;&lt;</code> operator. This operator works both during <em>reading</em>, and <em>writing</em>. <code>FArchive</code> has functions to determine which mode it&rsquo;s in. Such as
+the <code>write</code> mode with <code>Ar.IsSaving</code> or the <code>read</code> mode with <code>Ar.IsLoading</code>. This enables you to control how things get serialized during both read and write operations.</p>
+<p>Something important to node about overriding the <code>&lt;&lt;</code> operator, is that it&rsquo;s used for <strong>ALL</strong> types of serialization, not just networking. Don&rsquo;t worry, there are ways to specifically control serialization <strong>ONLY</strong> during network serialization.</p>
+<p>Unreal has a powerful <code>Struct Trait</code> System, now forewarning, the syntax may look a bit weird. But here is an example of how we can declare a <code>UStruct</code> with a <code>Network Serializer</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TStructOpsTypeTraits</span><span style="color:#f92672">&lt;</span>FPlayerData<span style="color:#f92672">&gt;</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> TStructOpsTypeTraitsBase2<span style="color:#f92672">&lt;</span>FPlayerData<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">enum</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		WithNetSerializer <span style="color:#f92672">=</span> true,
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>This <code>TStructOpsTypeTraits</code> lets you define very specific ways a structure gets used, looking inside of <code>Class.h</code> we can see all of the struct traits to cover custom aspects of <code>UStructs</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/** type traits to cover the custom aspects of a script struct **/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CPPSTRUCT</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TStructOpsTypeTraitsBase2</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">enum</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		WithZeroConstructor            <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct can be constructed as a valid object by filling its memory footprint with zeroes.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithNoInitConstructor          <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a constructor which takes an EForceInit parameter which will force the constructor to perform initialization, where the default constructor performs &#39;uninitialization&#39;.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithNoDestructor               <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct will not have its destructor called when it is destroyed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithCopy                       <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>TIsPODType<span style="color:#f92672">&lt;</span>CPPSTRUCT<span style="color:#f92672">&gt;::</span>Value, <span style="color:#75715e">// struct can be copied via its copy assignment operator.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithIdenticalViaEquality       <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct can be compared via its operator==.  This should be mutually exclusive with WithIdentical.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithIdentical                  <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct can be compared via an Identical(const T* Other, uint32 PortFlags) function.  This should be mutually exclusive with WithIdenticalViaEquality.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithExportTextItem             <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has an ExportTextItem function used to serialize its state into a string.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithImportTextItem             <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has an ImportTextItem function used to deserialize a string into an object of that class.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithAddStructReferencedObjects <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has an AddStructReferencedObjects function which allows it to add references to the garbage collector.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithSerializer                 <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a Serialize function for serializing its state to an FArchive.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithStructuredSerializer       <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a Serialize function for serializing its state to an FStructuredArchive.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithPostSerialize              <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a PostSerialize function which is called after it is serialized
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithNetSerializer              <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a NetSerialize function for serializing its state to an FArchive used for network replication.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithNetDeltaSerializer         <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a NetDeltaSerialize function for serializing differences in state from a previous NetSerialize operation.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithSerializeFromMismatchedTag <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a SerializeFromMismatchedTag function for converting from other property tags.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithStructuredSerializeFromMismatchedTag <span style="color:#f92672">=</span> false,               <span style="color:#75715e">// struct has an FStructuredArchive-based SerializeFromMismatchedTag function for converting from other property tags.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithPostScriptConstruct        <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a PostScriptConstruct function which is called after it is constructed in blueprints
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithNetSharedSerialization     <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a NetSerialize function that does not require the package map to serialize its state.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithGetPreloadDependencies     <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has a GetPreloadDependencies function to return all objects that will be Preload()ed when the struct is serialized at load time.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithPureVirtual                <span style="color:#f92672">=</span> false,                         <span style="color:#75715e">// struct has PURE_VIRTUAL functions and cannot be constructed when CHECK_PUREVIRTUALS is true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithFindInnerPropertyInstance  <span style="color:#f92672">=</span> false,							<span style="color:#75715e">// struct has a FindInnerPropertyInstance function that can provide an FProperty and data pointer when given a property FName
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		WithCanEditChange			   <span style="color:#f92672">=</span> false,							<span style="color:#75715e">// struct has an editor-only CanEditChange function that can conditionally make child properties read-only in the details panel (same idea as UObject::CanEditChange)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">constexpr</span> EPropertyObjectReferenceType WithSerializerObjectReferences <span style="color:#f92672">=</span> EPropertyObjectReferenceType<span style="color:#f92672">::</span>Conservative; <span style="color:#75715e">// struct&#39;s Serialize method(s) may serialize object references of these types - default Conservative means unknown and object reference collector archives should serialize this struct 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>To see a very good example of this system in use, we can look at <code>FVector_NetQuantize</code>, located inside of <code>NetSerialization.h</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>USTRUCT(meta <span style="color:#f92672">=</span> (HasNativeMake <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Script/Engine.KismetMathLibrary.MakeVector_NetQuantize&#34;</span>, HasNativeBreak <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Script/Engine.KismetMathLibrary.BreakVector_NetQuantize&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FVector_NetQuantize</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> FVector
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_USTRUCT_BODY()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FORCEINLINE FVector_NetQuantize()
+</span></span><span style="display:flex;"><span>	{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> FORCEINLINE <span style="color:#a6e22e">FVector_NetQuantize</span>(EForceInit E)
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">:</span> FVector(E)
+</span></span><span style="display:flex;"><span>	{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FORCEINLINE <span style="color:#a6e22e">FVector_NetQuantize</span>(<span style="color:#66d9ef">double</span> InX, <span style="color:#66d9ef">double</span> InY, <span style="color:#66d9ef">double</span> InZ)
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">:</span> FVector(InX, InY, InZ)
+</span></span><span style="display:flex;"><span>	{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FORCEINLINE <span style="color:#a6e22e">FVector_NetQuantize</span>(<span style="color:#66d9ef">const</span> FVector <span style="color:#f92672">&amp;</span>InVec)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector<span style="color:#f92672">::</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(InVec);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">NetSerialize</span>(FArchive<span style="color:#f92672">&amp;</span> Ar, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UPackageMap</span><span style="color:#f92672">*</span> Map, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&amp;</span> bOutSuccess)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bOutSuccess <span style="color:#f92672">=</span> SerializePackedVector<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">20</span><span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>, Ar);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TStructOpsTypeTraits</span><span style="color:#f92672">&lt;</span> FVector_NetQuantize <span style="color:#f92672">&gt;</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> TStructOpsTypeTraitsBase2<span style="color:#f92672">&lt;</span> FVector_NetQuantize <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">enum</span> 
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		WithNetSerializer <span style="color:#f92672">=</span> true,
+</span></span><span style="display:flex;"><span>		WithNetSharedSerialization <span style="color:#f92672">=</span> true,
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>Brushing over the boilerplate code, we can see that <code>FVector_NetQuantize</code> implements the trait <code>WithNetSerializer = true</code>, and then the function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> NetSerialize(FArchive<span style="color:#f92672">&amp;</span> Ar, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UPackageMap</span><span style="color:#f92672">*</span> Map, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&amp;</span> bOutSuccess)
+</span></span></code></pre></div><p>-is implemented, this gives us full access to the FArchive responsible for the network serialization.</p>
+<p>Another important trait is <code>WithNetDeltaSerializer</code>, which enables you direct access to determine what changes between two <code>NetSerialize</code> function calls, <code>FFastArraySerializer</code> takes advantage of this.</p>
+<h3 id="optimizing-serialization-for-performance">Optimizing Serialization for Performance</h3>
+<p>While Unreal Engine handles a lot of serialization automatically, there are ways to optimize it for better performance:</p>
+<ol>
+<li>
+<p><strong>Minimize Data Transmission</strong>: Only serialize and send the data that is absolutely necessary. Avoid transmitting redundant or static data that doesn&rsquo;t change often.</p>
+</li>
+<li>
+<p><strong>Use Compression</strong>: If you’re sending large amounts of data, consider compressing it before serialization. Unreal Engine provides built-in functions like <code>FArchive</code> for this purpose.</p>
+</li>
+<li>
+<p><strong>Custom Serialization</strong>: For complex objects, implement custom serialization logic to control exactly how data is packed and unpacked, which can reduce the size of your network packets.</p>
+</li>
+</ol>
+<h3 id="example-custom-serialization-with-compression">Example: Custom Serialization with Compression</h3>
+<p>Here’s a quick example of custom serialization with compression:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyPlayerState<span style="color:#f92672">::</span>SerializeCompressedData(FArchive<span style="color:#f92672">&amp;</span> Ar)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Ar.IsSaving())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        TArray<span style="color:#f92672">&lt;</span>uint8<span style="color:#f92672">&gt;</span> UncompressedData;
+</span></span><span style="display:flex;"><span>        FMemoryWriter <span style="color:#a6e22e">MemoryWriter</span>(UncompressedData, true);
+</span></span><span style="display:flex;"><span>        MemoryWriter <span style="color:#f92672">&lt;&lt;</span> PlayerData;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Compress the data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        TArray<span style="color:#f92672">&lt;</span>uint8<span style="color:#f92672">&gt;</span> CompressedData;
+</span></span><span style="display:flex;"><span>        FCompression<span style="color:#f92672">::</span>CompressMemory(NAME_Zlib, CompressedData.GetData(), CompressedData.Max(), UncompressedData.GetData(), UncompressedData.Num());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Serialize compressed data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Ar <span style="color:#f92672">&lt;&lt;</span> CompressedData;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (Ar.IsLoading())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        TArray<span style="color:#f92672">&lt;</span>uint8<span style="color:#f92672">&gt;</span> CompressedData;
+</span></span><span style="display:flex;"><span>        Ar <span style="color:#f92672">&lt;&lt;</span> CompressedData;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        TArray<span style="color:#f92672">&lt;</span>uint8<span style="color:#f92672">&gt;</span> UncompressedData;
+</span></span><span style="display:flex;"><span>        FCompression<span style="color:#f92672">::</span>UncompressMemory(NAME_Zlib, UncompressedData.GetData(), UncompressedData.Max(), CompressedData.GetData(), CompressedData.Num());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        FMemoryReader MemoryReader(UncompressedData, true);
+</span></span><span style="display:flex;"><span>        MemoryReader <span style="color:#f92672">&lt;&lt;</span> PlayerData;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this example, data is compressed using the Zlib algorithm before being serialized, reducing the amount of data transmitted over the network. When received, the data is uncompressed and deserialized back into the original format.</p>
+<p>Let&rsquo;s say you have a very very large structure, but that structure might not always be full of every piece of information that can be packaged into it, do we still have to replicate all the properties in the struct even if they&rsquo;re empty?
+<strong>NO</strong>.</p>
+<p>We can take advantage of the NetSerialize and access to the FArchive responsible by implementing something called <code>Bit Counting</code> or <code> Rep Bit Counting</code></p>
+<p><code>Bit Counting</code> is when you pack informatin into a bit <code>uint8</code> <code>uint32</code> (or whatever you suits your requirements) and determine what needs to get packaged up during the <code>Ar.IsSaving</code> phase. Let&rsquo;s take a look at <code>FGameplayEffectContext</code> from the <code>Gameplay Ability System</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> FGameplayEffectContext<span style="color:#f92672">::</span>NetSerialize(FArchive<span style="color:#f92672">&amp;</span> Ar, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UPackageMap</span><span style="color:#f92672">*</span> Map, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&amp;</span> bOutSuccess)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	uint8 RepBits <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Ar.IsSaving())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateInstigator <span style="color:#f92672">&amp;&amp;</span> Instigator.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateEffectCauser <span style="color:#f92672">&amp;&amp;</span> EffectCauser.IsValid() )
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (AbilityCDO.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateSourceObject <span style="color:#f92672">&amp;&amp;</span> SourceObject.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Actors.Num() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (HitResult.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bHasWorldOrigin)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	Ar.SerializeBits(<span style="color:#f92672">&amp;</span>RepBits, <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> Instigator;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> EffectCauser;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> AbilityCDO;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> SourceObject;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		SafeNetSerializeTArray_Default<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">31</span><span style="color:#f92672">&gt;</span>(Ar, Actors);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Ar.IsLoading())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>HitResult.IsValid())
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				HitResult <span style="color:#f92672">=</span> TSharedPtr<span style="color:#f92672">&lt;</span>FHitResult<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">new</span> FHitResult());
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		HitResult<span style="color:#f92672">-&gt;</span>NetSerialize(Ar, Map, bOutSuccess);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> WorldOrigin;
+</span></span><span style="display:flex;"><span>		bHasWorldOrigin <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bHasWorldOrigin <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Ar.IsLoading())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddInstigator(Instigator.Get(), EffectCauser.Get()); <span style="color:#75715e">// Just to initialize InstigatorAbilitySystemComponent
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	bOutSuccess <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>What in the world is this giant thing? Well it&rsquo;s actually pretty simple, you see <code>FGameplayEffectContext</code> is a very large struct. <code>size: 128, alignment: 8</code>, and we might not always have every bit of information packed into every one of those variables. So we can take advantage of <code>bit counting</code> to determine what actually needs to get serialized up.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	uint8 RepBits <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Ar.IsSaving())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateInstigator <span style="color:#f92672">&amp;&amp;</span> Instigator.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateEffectCauser <span style="color:#f92672">&amp;&amp;</span> EffectCauser.IsValid() )
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (AbilityCDO.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bReplicateSourceObject <span style="color:#f92672">&amp;&amp;</span> SourceObject.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Actors.Num() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (HitResult.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bHasWorldOrigin)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			RepBits <span style="color:#f92672">|=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div><p>This part here, only happens when the <code>FArchive</code> is in the <em>write</em> mode, at that time, you determine which properties have relevant values, and simply mark a <code>flag</code> into the <code>uint8 RepBits</code>, stating that something exists at that point we may want later.</p>
+<p>The next part happens for both <em>writing</em> and <em>reading</em>. At whichtime the <code>RepBits</code> is serialized to the number of entries we put into it, (in this case 7 bits), and then as we come through the struct, we look and see which properties are relevant, and if they are. We serialize them with the <code>&lt;&lt;</code> operator, or by calling the property&rsquo;s custom <code>NetSerialize</code> function. When this gets <em>read</em> on the other side, the order is maintained through the <code>RepBits</code>, so the reader has the
+ability to unpack the structure in the correct order. Which is *<em>Extremely</em> important. Both <em>reading</em> and <em>writing</em> needs to happen in the same order, due to how buffers work. We use the <code>uint8</code> to maintain a small way to send the data through the network which contains our information about what was actually read to the archiver.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Ar.SerializeBits(<span style="color:#f92672">&amp;</span>RepBits, <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> Instigator;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> EffectCauser;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> AbilityCDO;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> SourceObject;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		SafeNetSerializeTArray_Default<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">31</span><span style="color:#f92672">&gt;</span>(Ar, Actors);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Ar.IsLoading())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>HitResult.IsValid())
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				HitResult <span style="color:#f92672">=</span> TSharedPtr<span style="color:#f92672">&lt;</span>FHitResult<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">new</span> FHitResult());
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		HitResult<span style="color:#f92672">-&gt;</span>NetSerialize(Ar, Map, bOutSuccess);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RepBits <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Ar <span style="color:#f92672">&lt;&lt;</span> WorldOrigin;
+</span></span><span style="display:flex;"><span>		bHasWorldOrigin <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bHasWorldOrigin <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Ar.IsLoading())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddInstigator(Instigator.Get(), EffectCauser.Get()); <span style="color:#75715e">// Just to initialize InstigatorAbilitySystemComponent
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	bOutSuccess <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div><h3 id="conclusion">Conclusion</h3>
+<p>Efficient network serialization is essential for any multiplayer game developed in Unreal Engine. By understanding and optimizing how data is serialized, you can significantly reduce network overhead, leading to smoother and more responsive gameplay.</p>
+<p>If you’re looking to enhance your game’s networking performance, start by analyzing what data you’re sending across the network and consider implementing custom serialization strategies to optimize it.</p>
+<hr>
+<p>By following these guidelines and examples, you&rsquo;ll be well on your way to improving your Unreal Engine project&rsquo;s networking performance. Happy coding!</p>
+</section>
+
+  <section id="comments">
+    <script src="https://utteranc.es/client.js"
+        repo="MrDrElliot/DrElliotBlog"
+        issue-term="pathname"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+</main>
+        <footer id="main-footer"><div class="footer">
+  <a href="#">Scroll to Top</a>
+  <div class="footer-copyright">
+    <div class="dim">© 2025 Dr. Elliot</div>
+    <div>Made with ❤️ and powered by <a href="https://github.com/math-queiroz/rusty-typewriter" target="_blank">Rusty Typewriter</a> theme for <a href="https://gohugo.io/" target="_blank">Hugo</a></div>
+  </div>
+</div>
+</footer>
+      </div><aside id="side-pane" class="side-sticky"><div class="side-details">
+    <span>2104 words</span>
+    <span>15 - 19 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#what-is-network-serialization">What is Network Serialization?</a></li>
+        <li><a href="#unreal-engines-built-in-serialization">Unreal Engine&rsquo;s Built-in Serialization</a></li>
+        <li><a href="#optimizing-serialization-for-performance">Optimizing Serialization for Performance</a></li>
+        <li><a href="#example-custom-serialization-with-compression">Example: Custom Serialization with Compression</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></aside></div>
+  </div>
+</body>
+</html>

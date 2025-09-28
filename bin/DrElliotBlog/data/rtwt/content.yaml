@@ -1,0 +1,15 @@
+home:
+  image: 'images/avatar.png'
+  greetings: 'Dingus Oriented Programming'
+  text: 'Welcome to my blog'
+side:
+  home:
+  - content: 'I’m Elliot, a self-taught programmer and creator of the **Lumina** game engine. This blog is where I document experiments in **graphics**, **engine design**, **game development**, and **programming.**'
+  - title: 'What You’ll Find Here'
+    content: |
+      - Insights from building **Lumina** (C++ / Vulkan / ECS / Render Graphs)  
+      - Unreal Engine development lessons  
+      - Occasional thoughts on aviation, gaming, and life  
+  - title: 'Connect'
+    content: |
+      💬 Discord: `dr.elliot`  

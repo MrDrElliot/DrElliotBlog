@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blueprint on Dr. Elliot</title>
+    <link>https://www.dr-elliot.com/tags/blueprint/</link>
+    <description>Recent content in Blueprint on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Aug 2024 13:46:48 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/tags/blueprint/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blueprint vs C&#43;&#43;</title>
+      <link>https://www.dr-elliot.com/posts/general/bpvscpp/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/bpvscpp/</guid>
+      <description>C++ Is Not Better Than Blueprint—They’re Just Different You’ve probably heard the argument before: “C++ is better than Blueprint.” Often, this comes from people who are new to using C++ in Unreal Engine and are riding the peak of the Dunning-Kruger effect.&#xA;The truth is, one isn’t better than the other—they’re just different. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C++ is superior to Blueprint, comes across as arrogant.</description>
+    </item>
+  </channel>
+</rss>

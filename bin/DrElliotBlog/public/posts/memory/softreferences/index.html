@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>What Are Soft References? | Dr. Elliot</title>
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" /><meta property="og:url" content="https://www.dr-elliot.com/posts/memory/softreferences/">
+  <meta property="og:site_name" content="Dr. Elliot">
+  <meta property="og:title" content="What Are Soft References?">
+  <meta property="og:description" content="What Are Soft References? Soft references are a way to reference an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.
+Why Use Soft References? Imagine your game has a massive library of assets. Loading everything at once would quickly consume your memory, leading to performance issues or, worse, crashing your game.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-16T14:31:08-05:00">
+    <meta property="article:modified_time" content="2024-08-16T14:31:08-05:00">
+    <meta property="article:tag" content="Optimization">
+    <meta property="article:tag" content="UnrealEngine">
+    <meta property="article:tag" content="CPP">
+    <meta property="article:tag" content="C&#43;&#43;">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What Are Soft References?">
+  <meta name="twitter:description" content="What Are Soft References? Soft references are a way to reference an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.
+Why Use Soft References? Imagine your game has a massive library of assets. Loading everything at once would quickly consume your memory, leading to performance issues or, worse, crashing your game.">
+
+      <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
+
+      <script src="/js/bundle.cc8ae9952dbfb731affafabdf26e5c60a6910047ff59ccdeaf1daebaa26c8830.js" integrity="sha256-zIrplS2/tzGv&#43;vq98m5cYKaRAEf/Wczerx2uuqJsiDA=" crossorigin="anonymous"></script><script defer src="/js/search/flexsearch.compact.5e0de3b335e5c523c7cf45473dc43fccb6c75f64a9d59cc04a6eccbb7c25eb49.js" integrity="sha256-Xg3jszXlxSPHz0VHPcQ/zLbHX2Sp1ZzASm7Mu3wl60k="></script>
+<script defer src="/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js" integrity="sha256-HZgPhN8R8&#43;t8jF8X9UHUmgYRYI3xed10&#43;n8GIl61as4="></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+</head>
+<body class="notransition">
+  <div id="container">
+    <header id="main-header"><div role="navigation" aria-label="Main">
+  <div class="nav-left">
+    <a href="https://www.dr-elliot.com/" style="color: inherit;">Dr. Elliot</a>
+  </div>
+  <div class="nav-right">
+    <div style="position:absolute;width:0px;height:0px;">
+      <div id="nav-dropdown-menu" class="hidden" href="#">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    </div>
+    <a id="nav-dropdown-button" href="#"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+    <div id="nav-menu">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    <a id="theme-switcher" href="#">
+<svg class="light-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+  </div>
+</div>
+</header>
+    <div class="flex grow">
+      <div id="main-pane">
+        <main id="main-content"><div class="single-header">
+<ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content='1' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/posts/">
+        <span itemprop="name">Posts</span>
+      </a>
+      <meta itemprop="position" content='2' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+</ol>
+<h1>What Are Soft References?</h1><time class="dim" datetime="2024-08-16T14:31:08-05:00">August 16, 2024</time><div class="term-container"><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/optimization/">#Optimization</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/unrealengine/">#UnrealEngine</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/cpp/">#CPP</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/c&#43;&#43;/">#C&#43;&#43;</a>
+      </div></ol></div>
+
+  <section class="page-section"><h1 id="what-are-soft-references">What Are Soft References?</h1>
+<hr>
+<p>Soft references are a way to <em>reference</em> an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.</p>
+<h3 id="why-use-soft-references">Why Use Soft References?</h3>
+<p>Imagine your game has a massive library of assets. Loading everything at once would quickly consume your memory, leading to performance issues or, worse, crashing your game. This is where soft references come in handy. They allow you to keep a &ldquo;pointer&rdquo; to an asset, but the asset itself is not loaded into memory until you explicitly tell it to.</p>
+<p>Think of soft references as an invitation to a party—you have the address (the reference), but you don’t actually show up at the party (load the asset) until you decide it’s time to go. This way, you avoid overcrowding (memory overload) and only arrive (load the asset) when it’s relevant to the gameplay.</p>
+<h3 id="how-do-soft-references-work">How Do Soft References Work?</h3>
+<p>Soft references in Unreal are often used with the <code>TSoftObjectPtr</code> and <code>TSoftClassPtr</code> templates. These templates allow you to reference an object or class without immediately loading it into memory. When you need the object, you simply resolve the reference, which loads the asset at that moment.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TSoftObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span> SoftTexture;
+</span></span></code></pre></div><p>In the code above, <code>SoftTexture</code> is a soft reference to a texture. The texture isn’t loaded until you call <code>SoftTexture.LoadSynchronous()</code>. Until then, it’s just a reference, taking up minimal memory.</p>
+<h3 id="synchronous-loading-vs-asynchronous-loading">Synchronous Loading vs Asynchronous Loading</h3>
+<p>When it comes to loading assets referenced by soft references, you have two main options: <strong>synchronous</strong> loading and <strong>asynchronous</strong> loading.</p>
+<h4 id="synchronous-loading">Synchronous Loading</h4>
+<p>Synchronous loading means that the asset is loaded immediately, and the game waits until this process is complete before continuing. This is straightforward and ensures the asset is available right when you need it. However, it also means that the game will pause (or experience a hitch) while the asset loads, which can lead to noticeable frame drops or stuttering, especially if the asset is large or the game is running on hardware with limited resources.</p>
+<p>In the earlier example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>SoftTexture.LoadSynchronous();
+</span></span></code></pre></div><p>This method blocks everything else until the texture is fully loaded, which is great for critical assets that must be available right away but can cause issues in scenarios where smooth gameplay is crucial.</p>
+<h4 id="asynchronous-loading">Asynchronous Loading</h4>
+<p>Asynchronous loading, on the other hand, loads the asset in the background, allowing the game to continue running smoothly. This is particularly useful for assets that don’t need to be immediately available or for situations where you want to avoid disrupting the player’s experience.</p>
+<p>To load an asset asynchronously, you typically use a function like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>TSoftObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span> SoftTexture;
+</span></span><span style="display:flex;"><span>UAssetManager<span style="color:#f92672">::</span>GetStreamableManager().RequestAsyncLoad(SoftTexture.ToSoftObjectPath(), FStreamableDelegate<span style="color:#f92672">::</span>CreateWeakLambda(<span style="color:#66d9ef">this</span>, [SoftTexture]
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    SoftTexture.LoadSynchronous(); <span style="color:#75715e">/* Either .Get() or .LoadSynchronous(), the object is already loaded either way */</span>
+</span></span><span style="display:flex;"><span>}));
+</span></span></code></pre></div><p>With asynchronous loading, the game doesn&rsquo;t stop to wait for the asset to load, which helps maintain performance. However, this also means you need to handle the case where the asset isn’t ready when you need it. You might need to display a placeholder or delay an action until the asset is fully loaded.</p>
+<h3 id="issues-with-synchronous-and-asynchronous-loading">Issues with Synchronous and Asynchronous Loading</h3>
+<p>Both methods come with trade-offs:</p>
+<ul>
+<li>
+<p><strong>Synchronous Loading</strong>: The primary issue is the potential for hitches or pauses in gameplay, especially when loading large assets. It’s simple but can be disruptive if not used carefully.</p>
+</li>
+<li>
+<p><strong>Asynchronous Loading</strong>: While it helps maintain smooth gameplay, it requires additional logic to handle the period where the asset is not yet available. If not managed well, this can lead to missing assets or awkward transitions in gameplay.</p>
+</li>
+</ul>
+<h3 id="when-should-you-use-each">When Should You Use Each?</h3>
+<p>The choice between synchronous and asynchronous loading depends on your game’s needs:</p>
+<ul>
+<li>Use <strong>synchronous loading</strong> for assets that are critical and need to be available immediately, but be mindful of potential hitches.</li>
+<li>Use <strong>asynchronous loading</strong> for assets that can load in the background without affecting the immediate gameplay experience, but ensure you have a plan for handling the absence of the asset during the load.</li>
+</ul>
+<h3 id="when-soft-references-might-not-be-the-best-choice">When Soft References Might Not Be the Best Choice</h3>
+<p>While soft references are powerful, they aren’t always the optimal solution. Here are a few scenarios where soft references might not make sense:</p>
+<ol>
+<li>
+<p><strong>Frequently Used Assets</strong>: If an asset is used frequently throughout the game, such as core UI elements, main character models, or constantly played sound effects, it might be more efficient to use a hard reference or preload the asset. The overhead of constantly resolving a soft reference might outweigh the memory savings.</p>
+</li>
+<li>
+<p><strong>Critical Path Assets</strong>: For assets that are essential to the game’s primary gameplay loop or are needed instantly during gameplay, soft references might introduce unwanted delays. In such cases, preloading or using a hard reference ensures the asset is always ready.</p>
+</li>
+<li>
+<p><strong>Small Assets</strong>: For small assets that don’t consume much memory, the benefit of using soft references diminishes. It might be simpler to keep these assets loaded rather than managing their load states through soft references.</p>
+</li>
+<li>
+<p><strong>Assets Already Loaded by Other Means</strong>: If an asset is already loaded into memory because it’s part of a larger loaded package (like a level or a character model), using a soft reference to the same asset might be redundant and unnecessary.</p>
+</li>
+<li>
+<p><strong>Streaming Levels</strong>: When using Unreal’s level streaming system, certain assets might be better managed through the level’s streaming setup rather than through soft references. Streaming levels handle the memory management for you, so adding another layer of soft reference management might complicate things unnecessarily.</p>
+</li>
+</ol>
+<h3 id="conclusion">Conclusion</h3>
+<p>Soft references are a powerful tool in Unreal Engine that give you greater control over memory management and asset loading. They are ideal for managing memory in large games or for assets that aren’t always needed immediately. However, they are not a one-size-fits-all solution. For assets that are frequently used, critical to gameplay, or already managed by other systems, hard references or preloading might be a better choice.</p>
+<p>By understanding when and how to use soft references, and recognizing when they might not be the best fit, you can optimize your game’s performance while keeping memory usage in check. This balanced approach is key to maintaining a smooth and efficient gaming experience.</p>
+</section>
+
+  <section id="comments">
+    <script src="https://utteranc.es/client.js"
+        repo="MrDrElliot/DrElliotBlog"
+        issue-term="pathname"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+</main>
+        <footer id="main-footer"><div class="footer">
+  <a href="#">Scroll to Top</a>
+  <div class="footer-copyright">
+    <div class="dim">© 2025 Dr. Elliot</div>
+    <div>Made with ❤️ and powered by <a href="https://github.com/math-queiroz/rusty-typewriter" target="_blank">Rusty Typewriter</a> theme for <a href="https://gohugo.io/" target="_blank">Hugo</a></div>
+  </div>
+</div>
+</footer>
+      </div><aside id="side-pane" class="side-sticky"><div class="side-details">
+    <span>1037 words</span>
+    <span>6 - 8 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#why-use-soft-references">Why Use Soft References?</a></li>
+        <li><a href="#how-do-soft-references-work">How Do Soft References Work?</a></li>
+        <li><a href="#synchronous-loading-vs-asynchronous-loading">Synchronous Loading vs Asynchronous Loading</a></li>
+        <li><a href="#issues-with-synchronous-and-asynchronous-loading">Issues with Synchronous and Asynchronous Loading</a></li>
+        <li><a href="#when-should-you-use-each">When Should You Use Each?</a></li>
+        <li><a href="#when-soft-references-might-not-be-the-best-choice">When Soft References Might Not Be the Best Choice</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h3>Related</h3>
+    <ul><li><a href="/posts/general/constexpr/">Constexpr and Consteval</a></li><li><a href="/posts/memory/buffers/">Working With Buffers</a></li><li><a href="/posts/memory/tarrayallocators/">TArray Allocators</a></li><li><a href="/posts/memory/templateobjecttypes/">Templated Object Types</a></li><li><a href="/posts/general/bpvscpp/">Blueprint vs C&#43;&#43;</a></li></ul></aside></div>
+  </div>
+</body>
+</html>

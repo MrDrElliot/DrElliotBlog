@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blueprint vs C&#43;&#43; | Dr. Elliot</title>
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" /><meta property="og:url" content="https://www.dr-elliot.com/posts/general/bpvscpp/">
+  <meta property="og:site_name" content="Dr. Elliot">
+  <meta property="og:title" content="Blueprint vs C&#43;&#43;">
+  <meta property="og:description" content="C&#43;&#43; Is Not Better Than Blueprint—They’re Just Different You’ve probably heard the argument before: “C&#43;&#43; is better than Blueprint.” Often, this comes from people who are new to using C&#43;&#43; in Unreal Engine and are riding the peak of the Dunning-Kruger effect.
+The truth is, one isn’t better than the other—they’re just different. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C&#43;&#43; is superior to Blueprint, comes across as arrogant.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-16T13:46:48-05:00">
+    <meta property="article:modified_time" content="2024-08-16T13:46:48-05:00">
+    <meta property="article:tag" content="UnrealEngine">
+    <meta property="article:tag" content="Blueprint">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Blueprint vs C&#43;&#43;">
+  <meta name="twitter:description" content="C&#43;&#43; Is Not Better Than Blueprint—They’re Just Different You’ve probably heard the argument before: “C&#43;&#43; is better than Blueprint.” Often, this comes from people who are new to using C&#43;&#43; in Unreal Engine and are riding the peak of the Dunning-Kruger effect.
+The truth is, one isn’t better than the other—they’re just different. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C&#43;&#43; is superior to Blueprint, comes across as arrogant.">
+
+      <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
+
+      <script src="/js/bundle.cc8ae9952dbfb731affafabdf26e5c60a6910047ff59ccdeaf1daebaa26c8830.js" integrity="sha256-zIrplS2/tzGv&#43;vq98m5cYKaRAEf/Wczerx2uuqJsiDA=" crossorigin="anonymous"></script><script defer src="/js/search/flexsearch.compact.5e0de3b335e5c523c7cf45473dc43fccb6c75f64a9d59cc04a6eccbb7c25eb49.js" integrity="sha256-Xg3jszXlxSPHz0VHPcQ/zLbHX2Sp1ZzASm7Mu3wl60k="></script>
+<script defer src="/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js" integrity="sha256-HZgPhN8R8&#43;t8jF8X9UHUmgYRYI3xed10&#43;n8GIl61as4="></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+</head>
+<body class="notransition">
+  <div id="container">
+    <header id="main-header"><div role="navigation" aria-label="Main">
+  <div class="nav-left">
+    <a href="https://www.dr-elliot.com/" style="color: inherit;">Dr. Elliot</a>
+  </div>
+  <div class="nav-right">
+    <div style="position:absolute;width:0px;height:0px;">
+      <div id="nav-dropdown-menu" class="hidden" href="#">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    </div>
+    <a id="nav-dropdown-button" href="#"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+    <div id="nav-menu">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    <a id="theme-switcher" href="#">
+<svg class="light-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+  </div>
+</div>
+</header>
+    <div class="flex grow">
+      <div id="main-pane">
+        <main id="main-content"><div class="single-header">
+<ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content='1' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/posts/">
+        <span itemprop="name">Posts</span>
+      </a>
+      <meta itemprop="position" content='2' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+</ol>
+<h1>Blueprint vs C&#43;&#43;</h1><time class="dim" datetime="2024-08-16T13:46:48-05:00">August 16, 2024</time><div class="term-container"><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/unrealengine/">#UnrealEngine</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/blueprint/">#Blueprint</a>
+      </div></ol></div>
+
+  <section class="page-section"><h1 id="c-is-not-better-than-blueprinttheyre-just-different">C++ Is Not Better Than Blueprint—They’re Just Different</h1>
+<hr>
+<p>You’ve probably heard the argument before: “C++ is better than Blueprint.” Often, this comes from people who are new to using C++ in Unreal Engine and are riding the peak of the Dunning-Kruger effect.</p>
+<p><img src="../Dunning%E2%80%93Kruger_Effect.png" alt="Dunning-Kruger Effect"></p>
+<hr>
+<p>The truth is, one isn’t better than the other—<strong>they’re just different</strong>. It’s like comparing a knife to a fork; they are different tools for different jobs. Claiming that C++ is superior to Blueprint, comes across as arrogant.</p>
+<p>The reality is simple: use whatever you&rsquo;re comfortable with. Game development is hard—really hard. It becomes even more challenging when someone insists that Blueprint is inferior, urging you to drop everything and start following C++ tutorials. Use the tools that make you feel most at ease, and if you want to learn C++, go for it. But don’t do it because you think you’re missing out.</p>
+<h3 id="understanding-the-differences">Understanding the Differences</h3>
+<p>Yes, there are reasons to choose C++ over Blueprint for specific tasks, and it’s true that Blueprint is <em>marginally</em> slower than C++ in terms of execution time. But that’s what the profiler is for—use it to identify and optimize performance bottlenecks, and I cannot stress this enough.</p>
+<p>As a newer developer, you’re unlikely to run into the limitations of Blueprint anytime soon, especially until you start diving into more advanced multiplayer features. When you do, you’ll naturally transition to using C++ where it’s necessary.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>In the end, it’s not about which tool is better—it’s about which tool is better for you, right now. Both C++ and Blueprint have their places in Unreal Engine development. They complement each other, providing flexibility and power depending on the needs of the project. So, focus on mastering the tool that makes you most productive, and remember: there’s no one-size-fits-all in game development.</p>
+<p>When the time comes, you’ll know when to dive into C++. Until then, enjoy the journey, keep learning, and don’t let anyone else dictate the path you take.</p>
+</section>
+
+  <section id="comments">
+    <script src="https://utteranc.es/client.js"
+        repo="MrDrElliot/DrElliotBlog"
+        issue-term="pathname"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+</main>
+        <footer id="main-footer"><div class="footer">
+  <a href="#">Scroll to Top</a>
+  <div class="footer-copyright">
+    <div class="dim">© 2025 Dr. Elliot</div>
+    <div>Made with ❤️ and powered by <a href="https://github.com/math-queiroz/rusty-typewriter" target="_blank">Rusty Typewriter</a> theme for <a href="https://gohugo.io/" target="_blank">Hugo</a></div>
+  </div>
+</div>
+</footer>
+      </div><aside id="side-pane" class="side-sticky"><div class="side-details">
+    <span>325 words</span>
+    <span>2 - 2 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#understanding-the-differences">Understanding the Differences</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav><h3>Related</h3>
+    <ul><li><a href="/posts/gas/intro/">Intro to GAS</a></li><li><a href="/posts/memory/buffers/">Working With Buffers</a></li><li><a href="/posts/networking/networkserialization/">Network Serialization</a></li></ul></aside></div>
+  </div>
+</body>
+</html>

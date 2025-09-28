@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Cast Scare | Dr. Elliot</title>
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" /><meta property="og:url" content="https://www.dr-elliot.com/posts/optimization/thecastscare/">
+  <meta property="og:site_name" content="Dr. Elliot">
+  <meta property="og:title" content="The Cast Scare">
+  <meta property="og:description" content="Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it’s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There’s no shortage of YouTube videos with clickbait titles like “Casting is so bad, NEVER use it in your games!” (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-06T00:00:00+00:00">
+    <meta property="article:tag" content="UnrealEngine">
+    <meta property="article:tag" content="Paradigms">
+    <meta property="article:tag" content="Optimization">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The Cast Scare">
+  <meta name="twitter:description" content="Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it’s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There’s no shortage of YouTube videos with clickbait titles like “Casting is so bad, NEVER use it in your games!” (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so.">
+
+      <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
+      <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
+
+      <script src="/js/bundle.cc8ae9952dbfb731affafabdf26e5c60a6910047ff59ccdeaf1daebaa26c8830.js" integrity="sha256-zIrplS2/tzGv&#43;vq98m5cYKaRAEf/Wczerx2uuqJsiDA=" crossorigin="anonymous"></script><script defer src="/js/search/flexsearch.compact.5e0de3b335e5c523c7cf45473dc43fccb6c75f64a9d59cc04a6eccbb7c25eb49.js" integrity="sha256-Xg3jszXlxSPHz0VHPcQ/zLbHX2Sp1ZzASm7Mu3wl60k="></script>
+<script defer src="/js/search/search.1d980f84df11f3eb7c8c5f17f541d49a0611608df179dd74fa7f06225eb56ace.js" integrity="sha256-HZgPhN8R8&#43;t8jF8X9UHUmgYRYI3xed10&#43;n8GIl61as4="></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+</head>
+<body class="notransition">
+  <div id="container">
+    <header id="main-header"><div role="navigation" aria-label="Main">
+  <div class="nav-left">
+    <a href="https://www.dr-elliot.com/" style="color: inherit;">Dr. Elliot</a>
+  </div>
+  <div class="nav-right">
+    <div style="position:absolute;width:0px;height:0px;">
+      <div id="nav-dropdown-menu" class="hidden" href="#">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    </div>
+    <a id="nav-dropdown-button" href="#"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+    <div id="nav-menu">
+    <div class="nav-item">
+      <a aria-current="true" class="ancestor" href="/posts/"
+      >Posts</a>
+    </div>
+    <div class="nav-item">
+      <a href="/lumina/lumina/"
+      >Lumina</a>
+    </div>
+    <div class="nav-item">
+      <a href="/about/aboutme/"
+      >About</a>
+    </div>
+</div>
+    <a id="theme-switcher" href="#">
+<svg class="light-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<svg class="dark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+  </div>
+</div>
+</header>
+    <div class="flex grow">
+      <div id="main-pane">
+        <main id="main-content"><div class="single-header">
+<ol class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content='1' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="https://www.dr-elliot.com/posts/">
+        <span itemprop="name">Posts</span>
+      </a>
+      <meta itemprop="position" content='2' />
+    </li>
+    <span>&nbsp»&nbsp</span>
+</ol>
+<h1>The Cast Scare</h1><time class="dim" datetime="2024-09-06T00:00:00&#43;00:00">September 6, 2024</time><div class="term-container"><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/unrealengine/">#UnrealEngine</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/paradigms/">#Paradigms</a>
+      </div><div class="tag">
+        <a href="https://www.dr-elliot.com/tags/optimization/">#Optimization</a>
+      </div></ol></div>
+
+  <section class="page-section"><p>Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it&rsquo;s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There&rsquo;s no shortage of YouTube videos with clickbait titles like &ldquo;<em>Casting is so bad, NEVER use it in your games!</em>&rdquo; (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so. But I digress.</p>
+<h2 id="so-what-is-casting">So what is casting?</h2>
+<p>Casting is simply a way of converting one object type into another in Unreal Engine. In Blueprint, this is often done to access or interact with specific properties or methods on an object. For example, you might cast to a <code>PlayerCharacter</code> to access health or inventory functions from a generic object reference.</p>
+<p>In C++ terms, casting is essentially telling the engine, &ldquo;I know this object is actually of a more specific type, so let me treat it as that type.&rdquo;</p>
+<h2 id="is-casting-expensive">Is casting expensive?</h2>
+<p>Let’s clear this up: casting itself is not expensive. The act of casting doesn’t add significant runtime cost to your game. The real performance cost comes from asset loading, not the casting process itself. When you cast to a type, if the asset (like a skeletal mesh, material, or Blueprint class) hasn’t been loaded yet, the engine will load it. That’s where you might see a performance hit, but it happens once—after that, the asset is loaded into memory, and casting has no additional cost.</p>
+<p>A common misconception is the advice to &ldquo;never cast on Tick.&rdquo; Let me be clear: casting on Tick is fine. It doesn’t negatively affect performance in any significant way. Want to know a secret? The engine itself casts on Tick, and even Epic’s own Lyra Starter Game casts on Tick. Why? Because it doesn’t matter. If you’re worrying about saving nanoseconds, you’re over-optimizing. Don&rsquo;t believe me? <strong>PROFILE</strong>.</p>
+<p>So, relax—the world isn’t going to end if you cast on Tick.</p>
+<p>This misunderstanding of casting has led to a lot of disinformation, causing new developers to shy away from it out of fear, or worse, use convoluted workarounds that don&rsquo;t actually solve the issue.</p>
+<h2 id="what-makes-casting-bad">What makes casting bad?</h2>
+<p>The main thing that gets casting a bad rap is the creation of <strong>hard references</strong>. A hard reference means that when one asset references another directly, Unreal has to load both assets into memory. This can create long dependency chains that cause your game or editor to stutter or hang, especially when many assets are involved.</p>
+<p>However, here&rsquo;s the real kicker: <strong>it&rsquo;s not the casting that causes the hard reference, it&rsquo;s the pin</strong>. The &ldquo;As XYZ&rdquo; pin is what is causing the hard reference in your Blueprint, which is where the real problem lies. Many developers think they&rsquo;re avoiding hard references by using something like an interface or event dispatcher, but if they&rsquo;re still using the same reference pin, they&rsquo;re still creating the hard reference. The cast node itself is not the issue; it’s the context surrounding it.</p>
+<h2 id="what-makes-casting-good">What makes casting good?</h2>
+<p>Now that we’ve cleared up some of the misconceptions, let’s talk about when casting is a good idea. When done right, casting is an effective tool to make your code cleaner and more efficient.</p>
+<p>Here are some tips to keep your casting effective:</p>
+<ul>
+<li>
+<p><strong>Cast to native classes whenever possible</strong>. Native classes (C++ classes) have a lower overhead since they don&rsquo;t rely on Blueprint&rsquo;s reflection system, and don&rsquo;t contain any other hard references (a vast majority of the time).</p>
+</li>
+<li>
+<p>If you&rsquo;re working exclusively in Blueprint, <strong>keep your base classes free of any asset references</strong>. Avoid adding things like skeletal meshes, materials, or other large assets to the base class you&rsquo;re going to be casting to. This reduces the risk of inadvertently loading large assets unnecessarily.</p>
+<p>For example, if you cast to a <code>PlayerCharacter</code> class that has a skeletal mesh component attached to it, Unreal will load the mesh as soon as the class is referenced—even if you’re just trying to access a health variable. Avoid this by keeping base classes lightweight.</p>
+</li>
+<li>
+<p>You can also get a lot of these things without needing to cast to your player at all. For example, the On Overlap delegate that you commonly use in your Blueprints to receive a callback when your actor/component overlaps with something&hellip;
+The <em>Other Actor</em> pin produces an actor reference. You can use *<em>Get Component By Class</em> to anonymously find a component on your actor, without needing to cast to your character, or even any character.</p>
+</li>
+</ul>
+<h2 id="the-bigger-problem-hard-references">The Bigger Problem: Hard References</h2>
+<p>As mentioned earlier, hard references are a larger problem than casting itself. Creating long dependency chains between assets can bring the Unreal editor (or even your game) to a screeching halt. This is especially true if you’ve got multiple assets referencing one another indirectly through these chains. Managing these references is key to keeping your game performant, and it&rsquo;s something that requires thoughtful planning during development.</p>
+<p>But that’s a discussion for another day.</p>
+<hr>
+<p>In conclusion, casting has gotten a bad reputation because of misinformation. It&rsquo;s not inherently bad, nor is it expensive at runtime. The real issue lies in how casting can lead to hard references, especially when combined with asset-heavy classes. By understanding how casting works, and how to minimize hard references, you&rsquo;ll be in a much better position to use it efficiently in your projects.</p>
+</section>
+
+  <section id="comments">
+    <script src="https://utteranc.es/client.js"
+        repo="MrDrElliot/DrElliotBlog"
+        issue-term="pathname"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+</main>
+        <footer id="main-footer"><div class="footer">
+  <a href="#">Scroll to Top</a>
+  <div class="footer-copyright">
+    <div class="dim">© 2025 Dr. Elliot</div>
+    <div>Made with ❤️ and powered by <a href="https://github.com/math-queiroz/rusty-typewriter" target="_blank">Rusty Typewriter</a> theme for <a href="https://gohugo.io/" target="_blank">Hugo</a></div>
+  </div>
+</div>
+</footer>
+      </div><aside id="side-pane" class="side-sticky"><div class="side-details">
+    <span>897 words</span>
+    <span>5 - 6 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+  <ul>
+    <li><a href="#so-what-is-casting">So what is casting?</a></li>
+    <li><a href="#is-casting-expensive">Is casting expensive?</a></li>
+    <li><a href="#what-makes-casting-bad">What makes casting bad?</a></li>
+    <li><a href="#what-makes-casting-good">What makes casting good?</a></li>
+    <li><a href="#the-bigger-problem-hard-references">The Bigger Problem: Hard References</a></li>
+  </ul>
+</nav><h3>Related</h3>
+    <ul><li><a href="/posts/memory/softreferences/">What Are Soft References?</a></li><li><a href="/posts/memory/tarrayallocators/">TArray Allocators</a></li><li><a href="/posts/memory/templateobjecttypes/">Templated Object Types</a></li><li><a href="/posts/general/bpvscpp/">Blueprint vs C&#43;&#43;</a></li><li><a href="/posts/general/constexpr/">Constexpr and Consteval</a></li></ul></aside></div>
+  </div>
+</body>
+</html>

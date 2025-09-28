@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LifeLessons on Dr. Elliot</title>
+    <link>https://www.dr-elliot.com/tags/lifelessons/</link>
+    <description>Recent content in LifeLessons on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Sep 2025 12:34:23 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/tags/lifelessons/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stop Being a Condescending Asshole</title>
+      <link>https://www.dr-elliot.com/posts/general/answering/</link>
+      <pubDate>Tue, 23 Sep 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/answering/</guid>
+      <description>We’ve all been there:&#xA;Q: &amp;ldquo;Hey, I’m running into an issue with X, has anyone seen this before?&amp;rdquo;&#xA;A: &amp;ldquo;Why would you even do that? That’s wrong.&amp;rdquo;&#xA;And just like that, a genuine question gets slapped down with arrogance instead of help.&#xA;This happens constantly in programming Discords, and other communities. The attitude usually comes from the same place: ego. For some people, programming isn’t just problem-solving, it’s a stage for flexing intelligence at the expense of others.</description>
+    </item>
+    <item>
+      <title>Overuse of Inheritence.</title>
+      <link>https://www.dr-elliot.com/posts/general/inheritenceoveruse/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/inheritenceoveruse/</guid>
+      <description>Inheritance in object-oriented programming (OOP) is a fundamental concept that is deeply embedded in the design of Unreal Engine, and in many cases, it&amp;rsquo;s an elegant and powerful tool. However, like any tool, it can be overused, leading developers into a trap that can complicate development and maintenance in the long run.&#xA;The Trap of Overusing Inheritance Inheritance is often the go-to solution for sharing functionality across different classes. While it provides a straightforward way to extend and modify behavior, over-relying on it can lead to a rigid and tightly coupled codebase.</description>
+    </item>
+  </channel>
+</rss>

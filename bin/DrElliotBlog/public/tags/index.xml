@@ -2,10 +2,109 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Dr. Elliot</title>
-    <link>https://dr-elliot.com/tags/</link>
+    <link>https://www.dr-elliot.com/tags/</link>
     <description>Recent content in Tags on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="https://dr-elliot.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Sep 2025 12:34:23 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LifeLessons</title>
+      <link>https://www.dr-elliot.com/tags/lifelessons/</link>
+      <pubDate>Tue, 23 Sep 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/lifelessons/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GameEngine</title>
+      <link>https://www.dr-elliot.com/tags/gameengine/</link>
+      <pubDate>Tue, 23 Sep 2025 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/gameengine/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lumina</title>
+      <link>https://www.dr-elliot.com/tags/lumina/</link>
+      <pubDate>Tue, 23 Sep 2025 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/lumina/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rendering</title>
+      <link>https://www.dr-elliot.com/tags/rendering/</link>
+      <pubDate>Tue, 23 Sep 2025 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/rendering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vulkan</title>
+      <link>https://www.dr-elliot.com/tags/vulkan/</link>
+      <pubDate>Tue, 23 Sep 2025 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/vulkan/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://www.dr-elliot.com/tags/c&#43;&#43;/</link>
+      <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CPP</title>
+      <link>https://www.dr-elliot.com/tags/cpp/</link>
+      <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/cpp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Programming</title>
+      <link>https://www.dr-elliot.com/tags/programming/</link>
+      <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/programming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Optimization</title>
+      <link>https://www.dr-elliot.com/tags/optimization/</link>
+      <pubDate>Sun, 29 Sep 2024 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/optimization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Paradigms</title>
+      <link>https://www.dr-elliot.com/tags/paradigms/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.dr-elliot.com/tags/paradigms/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>UnrealEngine</title>
+      <link>https://www.dr-elliot.com/tags/unrealengine/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.dr-elliot.com/tags/unrealengine/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Blueprint</title>
+      <link>https://www.dr-elliot.com/tags/blueprint/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/blueprint/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GAS</title>
+      <link>https://www.dr-elliot.com/tags/gas/</link>
+      <pubDate>Fri, 16 Aug 2024 12:29:09 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/gas/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>https://www.dr-elliot.com/tags/networking/</link>
+      <pubDate>Fri, 16 Aug 2024 10:28:54 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/tags/networking/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

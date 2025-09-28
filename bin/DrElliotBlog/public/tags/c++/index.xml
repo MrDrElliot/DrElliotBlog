@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; on Dr. Elliot</title>
+    <link>https://www.dr-elliot.com/tags/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 27 Mar 2025 12:34:23 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fun with V-Tables</title>
+      <link>https://www.dr-elliot.com/posts/general/vtable/</link>
+      <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/vtable/</guid>
+      <description>Fun with V-Tables! Have you ever wanted to access a function, but you couldn&amp;rsquo;t because the function is private? :/ Have you wanted to replace a function in a class? Well, look no further! Today we&amp;rsquo;re going to be talking about V-Table manipulation.&#xA;Please note, this is purely for fun and can be dangerous to do in production environments. I don&amp;rsquo;t recommend using it for actual runtime use, but it can be an interesting exercise in how memory manipulation works and how you can use it to your advantage.</description>
+    </item>
+    <item>
+      <title>Move Semantics</title>
+      <link>https://www.dr-elliot.com/posts/memory/movesemantics/</link>
+      <pubDate>Sun, 29 Sep 2024 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/memory/movesemantics/</guid>
+      <description>Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.&#xA;Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.</description>
+    </item>
+    <item>
+      <title>What Are Soft References?</title>
+      <link>https://www.dr-elliot.com/posts/memory/softreferences/</link>
+      <pubDate>Fri, 16 Aug 2024 14:31:08 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/memory/softreferences/</guid>
+      <description>What Are Soft References? Soft references are a way to reference an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.&#xA;Why Use Soft References? Imagine your game has a massive library of assets. Loading everything at once would quickly consume your memory, leading to performance issues or, worse, crashing your game.</description>
+    </item>
+    <item>
+      <title>Constexpr and Consteval</title>
+      <link>https://www.dr-elliot.com/posts/general/constexpr/</link>
+      <pubDate>Fri, 16 Aug 2024 13:46:48 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/constexpr/</guid>
+      <description>Simple way to possibly increase some performance. This blog is a follow-up to this YouTube video: https://www.youtube.com/watch?v=8-VZoXn8f9U&#xA;Consider the following code:&#xA;// ConstexprExample.cpp : This file contains the &amp;#39;main&amp;#39; function. Program execution begins and ends there. // #include &amp;lt;iostream&amp;gt; #include &amp;lt;chrono&amp;gt; int Fibonacci(int n) { if (n &amp;lt;= 1) return n; return Fibonacci(n - 1) + Fibonacci(n - 2); } constexpr int Fibonacci_C(int n) { if (n &amp;lt;= 1) return n; return Fibonacci_C(n - 1) + Fibonacci_C(n - 2); } int main() { auto Start = std::chrono::high_resolution_clock::now(); constexpr int num = 25; constexpr int result_c = Fibonacci_C(num); std::cout &amp;lt;&amp;lt; &amp;#34;Constexpr Fibonacci: &amp;#34; &amp;lt;&amp;lt; result_c &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;; std::cout &amp;lt;&amp;lt; &amp;#34;Time Taken: &amp;#34; &amp;lt;&amp;lt; std::chrono::duration_cast&amp;lt;std::chrono::microseconds&amp;gt;(std::chrono::high_resolution_clock::now() - Start).</description>
+    </item>
+    <item>
+      <title>Working With Buffers</title>
+      <link>https://www.dr-elliot.com/posts/memory/buffers/</link>
+      <pubDate>Fri, 16 Aug 2024 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/memory/buffers/</guid>
+      <description>Buffers are simply containers of bytes that can store raw data using memory offsets. Understanding how to effectively manage these buffers is essential for tasks like serialization, deserialization, and data storage.&#xA;Raw C++ Buffer Management In raw C++, managing buffers and packing data requires manual handling of memory offsets. For example, consider the following code that packs several uint32_t values into a std::vector&amp;lt;std::byte&amp;gt; buffer:&#xA;#include &amp;lt;vector&amp;gt; #include &amp;lt;cstdint&amp;gt; #include &amp;lt;cstring&amp;gt; // For std::memcpy void PackData() { // Buffer to hold the packed data std::vector&amp;lt;std::byte&amp;gt; buffer; // Example data std::vector&amp;lt;uint32_t&amp;gt; data = { 1234, 5678, 91011 }; // Calculate the total size needed for the buffer size_t totalSize = data.</description>
+    </item>
+  </channel>
+</rss>
