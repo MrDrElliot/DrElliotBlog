@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GameDevelopment on Dr. Elliot</title>
+    <link>https://www.dr-elliot.com/tags/gamedevelopment/</link>
+    <description>Recent content in GameDevelopment on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 29 Sep 2025 12:34:23 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/tags/gamedevelopment/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dangers of Game Development</title>
+      <link>https://www.dr-elliot.com/posts/general/friendshipandbusiness/</link>
+      <pubDate>Mon, 29 Sep 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/friendshipandbusiness/</guid>
+      <description>Disclaimer: This post reflects general observations and lessons learned from working in creative industries.&#xA;It is not about any specific individual, project, or legal matter.&#xA;Starting a project with a friend can feel like the dream, shared vision, late-night brainstorming, the excitement of building something together. But money has a strange way of distorting relationships. When financial stakes enter the picture, priorities shift, values get tested, and even the strongest friendships can fracture.</description>
+    </item>
+  </channel>
+</rss>

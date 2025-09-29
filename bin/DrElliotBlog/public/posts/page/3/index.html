@@ -81,56 +81,32 @@
 </header>
     <div class="flex grow">
       <div id="main-pane">
-        <main id="main-content"><h1>Posts</h1><div class="list-group-key">2025</div><div class="list-group-heading">
-        <a href="/posts/general/friendshipandbusiness/">Dangers of Game Development</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Sep 29</time>
-      </div>
-      <div class="list-group-summary content-font">Starting a project with a friend can feel like the dream, shared vision, late-night brainstorming, the excitement of building something together. But money has a strange way of distorting relationships. When financial stakes enter the picture, priorities shift, values get tested, and even the strongest friendships can fracture.</div><div class="list-group-heading">
-        <a href="/posts/general/answering/">Stop Being a Condescending Asshole</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Sep 23</time>
-      </div>
-      <div class="list-group-summary content-font">We’ve all been there:</div><div class="list-group-heading">
-        <a href="/posts/general/vtable/">Fun with V-Tables</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Mar 27</time>
-      </div>
-      <div class="list-group-summary content-font">A Virtual Table (or V-Table) is an essential concept in C++ for implementing polymorphism. It’s a data structure used to support dynamic dispatch for virtual functions. When you define a class with virtual functions, the compiler generates a V-Table for that class to keep track of the addresses of those virtual functions. At runtime, the V-Table is used to decide which function to call based on the type of the object, allowing polymorphism to work correctly.</div><div class="list-group-key">2024</div><div class="list-group-heading">
-        <a href="/posts/memory/movesemantics/">Move Semantics</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Sep 29</time>
-      </div>
-      <div class="list-group-summary content-font">Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.</div><div class="list-group-heading">
-        <a href="/posts/optimization/thecastscare/">The Cast Scare</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Sep 6</time>
-      </div>
-      <div class="list-group-summary content-font">Hello! Today I wanted to talk a little bit about casting, primarily Blueprint casting. The main reason I wanted to bring this up is because it&rsquo;s one of the most misunderstood and blown-out-of-proportion concepts in Unreal Engine. There&rsquo;s no shortage of YouTube videos with clickbait titles like &ldquo;Casting is so bad, NEVER use it in your games!&rdquo; (or some variation of that). This highlights a larger problem: people creating tutorials when they have no business doing so. But I digress.</div><div class="list-group-heading">
-        <a href="/posts/memory/softreferences/">What Are Soft References?</a>
+        <main id="main-content"><h1>Posts</h1><div class="list-group-key">2024</div><div class="list-group-heading">
+        <a href="/posts/networking/networkserialization/">Network Serialization</a>
         <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Aug 16</time>
       </div>
-      <div class="list-group-summary content-font">Soft references are a way to reference an object in Unreal Engine without forcing it to stay in memory. This can be incredibly useful in scenarios where you need to reference assets like textures, sounds, or even entire levels, but don’t want to load them into memory until absolutely necessary.</div><div class="list-group-heading">
-        <a href="/posts/memory/templateobjecttypes/">Templated Object Types</a>
-        <time class="dim" style="float: right;" datetime="2023-05-02T00:00:00Z">Aug 16</time>
-      </div>
-      <div class="list-group-summary content-font">Unreal Engine provides various templated object pointer types that help manage memory and references to UObject instances in a safe and efficient manner. These templated types are vital for ensuring the stability and performance of your Unreal Engine projects. In this post, we&rsquo;ll explore the most common templated object pointer types, explain what they do, and discuss when to use them.</div>
+      <div class="list-group-summary content-font">Hello, I wanted to talk about some ways you can improve networking performance in C++ by understanding and implementing efficient network serialization in Unreal Engine. Effective serialization is critical for transmitting data across the network without unnecessary overhead, especially in multiplayer games where bandwidth is limited.</div>
     <ul class="pagination pagination-default">
-      <li class="page-item disabled">
-        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      <li class="page-item">
+        <a href="/posts/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
       </li>
-      <li class="page-item disabled">
-        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
       </li>
-      <li class="page-item active">
-        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      <li class="page-item">
+        <a href="/posts/" aria-label="Page 1" class="page-link" role="button">1</a>
       </li>
       <li class="page-item">
         <a href="/posts/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
       </li>
-      <li class="page-item">
-        <a href="/posts/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 3" class="page-link" role="button">3</a>
       </li>
-      <li class="page-item">
-        <a href="/posts/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Next" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;</span></a>
       </li>
-      <li class="page-item">
-        <a href="/posts/page/3/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Last" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
     </ul></main>
         <footer id="main-footer"><div class="footer">
