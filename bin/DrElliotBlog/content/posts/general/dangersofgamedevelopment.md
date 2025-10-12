@@ -22,9 +22,9 @@ This is especially true in creative industries like **indie game development**, 
 
 Money has a way of magnifying small differences:
 
-* **Creative vs. commercial focus** – What happens when one partner values artistic integrity while the other pushes for monetization?
-* **Workload vs. compensation** – If one person feels they’re carrying more weight, resentment festers.
-* **Risk tolerance** – Some are comfortable reinvesting everything; others want quick returns.
+* What happens when one partner values artistic integrity while the other pushes for monetization?
+* If one person feels they’re carrying more weight, resentment festers.
+* Some are comfortable reinvesting everything; others want quick returns.
 
 What starts as “just a side project” can quickly become a battle over control, credit, or compensation.
 
@@ -56,24 +56,6 @@ The person you thought you knew transforms. Where you once saw a friend or colla
 That shift is disorienting. Your respect for them diminishes, because their choices stop being about building something together and start being about taking, no matter the cost.  
 
 And once you’ve seen that side of someone, it’s nearly impossible to unsee it.
-
----
-
-## Case Studies & Real-World Parallels
-
-This dynamic isn’t unique to indie game dev—it shows up everywhere:
-
-* **Facebook’s Origins (Mark Zuckerberg & Eduardo Saverin)**  
-  Saverin funded Facebook early on, but later disputes over ownership led to lawsuits and a settlement. Even with contracts, power and money shifted the outcome.  
-  [The Social Network dramatization](https://en.wikipedia.org/wiki/The_Social_Network) makes this tension clear.
-
-* **Beats by Dre (Dr. Dre, Jimmy Iovine, and others)**  
-  Partnerships around Beats had multiple shifts in equity and disputes before Apple acquired the company for $3B. Friendships and loyalties were tested once real money appeared.  
-  [Forbes on the Beats sale](https://www.forbes.com/sites/zackomalleygreenburg/2014/05/28/inside-beats-3-billion-deal-with-apple/)
-
-* **Valve’s Employee Ownership Stories**  
-  Valve has famously had disputes about how money and equity are distributed internally, showing how even successful ventures with “friends” can fracture.  
-  [Valve Handbook for New Employees (PDF)](https://steamcdn-a.akamaihd.net/apps/valve/Valve_Handbook_LowRes.pdf)
 
 ---
 

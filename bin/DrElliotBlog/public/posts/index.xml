@@ -6,8 +6,22 @@
     <description>Recent content in Posts on Dr. Elliot</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Sep 2025 12:34:23 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 11 Oct 2025 12:34:23 -0500</lastBuildDate>
     <atom:link href="https://www.dr-elliot.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to ask a question</title>
+      <link>https://www.dr-elliot.com/posts/general/asking/</link>
+      <pubDate>Sat, 11 Oct 2025 12:34:23 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/general/asking/</guid>
+      <description>Honestly, this has been covered in so many places, and I&amp;rsquo;m by no means a psychology professor. I have done my fair share of studying different learning and teaching techniques from when I was a flight instructor, though, so I&amp;rsquo;d like to share some thoughts on asking effective questions, especially in programming communities.&#xA;The Quick Reference Guide If you don&amp;rsquo;t feel like reading my post, here are some excellent resources:</description>
+    </item>
+    <item>
+      <title>Move Semantics</title>
+      <link>https://www.dr-elliot.com/posts/memory/movesemantics/</link>
+      <pubDate>Sat, 11 Oct 2025 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/posts/memory/movesemantics/</guid>
+      <description>Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.&#xA;Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another. This could be for a number of reasons, one example is for directly transferring ownership (which we will demonstrate) down below.&#xA;Understanding L-values and R-values Before we dive into move semantics, we need to understand the fundamental distinction between l-values and r-values.</description>
+    </item>
     <item>
       <title>Dangers of Game Development</title>
       <link>https://www.dr-elliot.com/posts/general/dangersofgamedevelopment/</link>
@@ -28,13 +42,6 @@
       <pubDate>Thu, 27 Mar 2025 12:34:23 -0500</pubDate>
       <guid>https://www.dr-elliot.com/posts/general/vtable/</guid>
       <description>Fun with V-Tables! Have you ever wanted to access a function, but you couldn&amp;rsquo;t because the function is private? :/ Have you wanted to replace a function in a class? Well, look no further! Today we&amp;rsquo;re going to be talking about V-Table manipulation.&#xA;Please note, this is purely for fun and can be dangerous to do in production environments. I don&amp;rsquo;t recommend using it for actual runtime use, but it can be an interesting exercise in how memory manipulation works and how you can use it to your advantage.</description>
-    </item>
-    <item>
-      <title>Move Semantics</title>
-      <link>https://www.dr-elliot.com/posts/memory/movesemantics/</link>
-      <pubDate>Sun, 29 Sep 2024 12:28:45 -0500</pubDate>
-      <guid>https://www.dr-elliot.com/posts/memory/movesemantics/</guid>
-      <description>Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.&#xA;Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.</description>
     </item>
     <item>
       <title>The Cast Scare</title>

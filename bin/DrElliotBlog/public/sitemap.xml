@@ -2,22 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.dr-elliot.com/</loc>
+    <lastmod>2025-10-11T12:34:23-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/posts/general/asking/</loc>
+    <lastmod>2025-10-11T12:34:23-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/tags/lifelessons/</loc>
+    <lastmod>2025-10-11T12:34:23-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/posts/</loc>
+    <lastmod>2025-10-11T12:34:23-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/tags/</loc>
+    <lastmod>2025-10-11T12:34:23-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/tags/c&#43;&#43;/</loc>
+    <lastmod>2025-10-11T12:28:45-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/tags/cpp/</loc>
+    <lastmod>2025-10-11T12:28:45-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/posts/memory/movesemantics/</loc>
+    <lastmod>2025-10-11T12:28:45-05:00</lastmod>
+  </url><url>
+    <loc>https://www.dr-elliot.com/tags/optimization/</loc>
+    <lastmod>2025-10-11T12:28:45-05:00</lastmod>
+  </url><url>
     <loc>https://www.dr-elliot.com/posts/general/dangersofgamedevelopment/</loc>
     <lastmod>2025-09-29T12:34:23-05:00</lastmod>
   </url><url>
-    <loc>https://www.dr-elliot.com/</loc>
-    <lastmod>2025-09-29T12:34:23-05:00</lastmod>
-  </url><url>
     <loc>https://www.dr-elliot.com/tags/gamedevelopment/</loc>
-    <lastmod>2025-09-29T12:34:23-05:00</lastmod>
-  </url><url>
-    <loc>https://www.dr-elliot.com/tags/lifelessons/</loc>
-    <lastmod>2025-09-29T12:34:23-05:00</lastmod>
-  </url><url>
-    <loc>https://www.dr-elliot.com/posts/</loc>
-    <lastmod>2025-09-29T12:34:23-05:00</lastmod>
-  </url><url>
-    <loc>https://www.dr-elliot.com/tags/</loc>
     <lastmod>2025-09-29T12:34:23-05:00</lastmod>
   </url><url>
     <loc>https://www.dr-elliot.com/posts/general/answering/</loc>
@@ -41,12 +56,6 @@
     <loc>https://www.dr-elliot.com/tags/vulkan/</loc>
     <lastmod>2025-09-23T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>https://www.dr-elliot.com/tags/c&#43;&#43;/</loc>
-    <lastmod>2025-03-27T12:34:23-05:00</lastmod>
-  </url><url>
-    <loc>https://www.dr-elliot.com/tags/cpp/</loc>
-    <lastmod>2025-03-27T12:34:23-05:00</lastmod>
-  </url><url>
     <loc>https://www.dr-elliot.com/posts/general/vtable/</loc>
     <lastmod>2025-03-27T12:34:23-05:00</lastmod>
   </url><url>
@@ -56,10 +65,10 @@
     <loc>https://www.dr-elliot.com/search/</loc>
     <lastmod>2025-03-24T23:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://www.dr-elliot.com/posts/memory/movesemantics/</loc>
+    <loc>https://www.dr-elliot.com/archive/</loc>
     <lastmod>2024-09-29T12:28:45-05:00</lastmod>
   </url><url>
-    <loc>https://www.dr-elliot.com/tags/optimization/</loc>
+    <loc>https://www.dr-elliot.com/archive/movesemantics_old/</loc>
     <lastmod>2024-09-29T12:28:45-05:00</lastmod>
   </url><url>
     <loc>https://www.dr-elliot.com/tags/paradigms/</loc>

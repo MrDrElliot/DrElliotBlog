@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Archives on Dr. Elliot</title>
+    <link>https://www.dr-elliot.com/archive/</link>
+    <description>Recent content in Archives on Dr. Elliot</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 29 Sep 2024 12:28:45 -0500</lastBuildDate>
+    <atom:link href="https://www.dr-elliot.com/archive/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Move Semantics</title>
+      <link>https://www.dr-elliot.com/archive/movesemantics_old/</link>
+      <pubDate>Sun, 29 Sep 2024 12:28:45 -0500</pubDate>
+      <guid>https://www.dr-elliot.com/archive/movesemantics_old/</guid>
+      <description>Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.&#xA;Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.</description>
+    </item>
+  </channel>
+</rss>

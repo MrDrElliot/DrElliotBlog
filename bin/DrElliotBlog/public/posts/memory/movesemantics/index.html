@@ -9,12 +9,13 @@
   <meta property="og:site_name" content="Dr. Elliot">
   <meta property="og:title" content="Move Semantics">
   <meta property="og:description" content="Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.
-Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.">
+Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another. This could be for a number of reasons, one example is for directly transferring ownership (which we will demonstrate) down below.
+Understanding L-values and R-values Before we dive into move semantics, we need to understand the fundamental distinction between l-values and r-values.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-09-29T12:28:45-05:00">
-    <meta property="article:modified_time" content="2024-09-29T12:28:45-05:00">
+    <meta property="article:published_time" content="2025-10-11T12:28:45-05:00">
+    <meta property="article:modified_time" content="2025-10-11T12:28:45-05:00">
     <meta property="article:tag" content="CPP">
     <meta property="article:tag" content="C&#43;&#43;">
     <meta property="article:tag" content="Optimization">
@@ -22,7 +23,8 @@ Move semantics involve efficiently transferring ownership of resources (like mem
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Move Semantics">
   <meta name="twitter:description" content="Hello! Today, I want to talk about a commonly misunderstood concept in programming: Move Semantics.
-Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as game development, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics.">
+Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another. This could be for a number of reasons, one example is for directly transferring ownership (which we will demonstrate) down below.
+Understanding L-values and R-values Before we dive into move semantics, we need to understand the fundamental distinction between l-values and r-values.">
 
       <link rel="stylesheet" href="/css/root.min.0e732b812b9751962e01a7c4798a1211cd5f8ac8abec7f99793fe306989e459f.css" integrity="sha256-DnMrgSuXUZYuAafEeYoSEc1fisir7H&#43;ZeT/jBpieRZ8=" crossorigin="anonymous">
       <link rel="stylesheet" href="/css/bundle.min.59eb1a059f8cd558e64375ede3e68d3e9120ddb0c6bdbab555c247689cef59e1.css" integrity="sha256-WesaBZ&#43;M1VjmQ3Xt4&#43;aNPpEg3bDGvbq1VcJHaJzvWeE=" crossorigin="anonymous">
@@ -108,7 +110,7 @@ Move semantics involve efficiently transferring ownership of resources (like mem
     </li>
     <span>&nbsp»&nbsp</span>
 </ol>
-<h1>Move Semantics</h1><time class="dim" datetime="2024-09-29T12:28:45-05:00">September 29, 2024</time><div class="term-container"><div class="tag">
+<h1>Move Semantics</h1><time class="dim" datetime="2025-10-11T12:28:45-05:00">October 11, 2025</time><div class="term-container"><div class="tag">
         <a href="https://www.dr-elliot.com/tags/cpp/">#CPP</a>
       </div><div class="tag">
         <a href="https://www.dr-elliot.com/tags/c&#43;&#43;/">#C&#43;&#43;</a>
@@ -117,343 +119,319 @@ Move semantics involve efficiently transferring ownership of resources (like mem
       </div></ol></div>
 
   <section class="page-section"><p>Hello! Today, I want to talk about a commonly misunderstood concept in programming: <strong>Move Semantics</strong>.</p>
-<p>Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another, instead of copying the data, which adds unnecessary overhead. This is especially important in performance-critical applications such as <strong>game development</strong>, where proper memory management can make a big difference in efficiency. Games, just like any other software, are prone to performance pitfalls caused by poor handling of move semantics. By the end of this post, you should have a better grasp of how to avoid these inefficiencies.</p>
-<p>We’ll cover the basics of <strong>lvalue</strong> and <strong>rvalue</strong>, explore move semantics in C++ and Unreal Engine, and show real-world examples in both <strong>raw C++</strong> and <strong>Unreal Engine’s C++</strong>.</p>
-<p>Let’s get started!</p>
-<h2 id="understanding-the-problem">Understanding the Problem</h2>
-<p>Let’s first consider a raw C++ example:</p>
-<h3 id="raw-c-code-example">Raw C++ Code Example:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+<p>Move semantics involve efficiently transferring ownership of resources (like memory) from one object to another. This could be for a number of reasons, one example is for directly transferring ownership (which we will demonstrate) down below.</p>
+<h2 id="understanding-l-values-and-r-values">Understanding L-values and R-values</h2>
+<p>Before we dive into move semantics, we need to understand the fundamental distinction between l-values and r-values.</p>
+<p><strong>L-values</strong> (left values) are expressions that refer to a memory location and allow us to take their address. They have a persistent identity beyond a single expression.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;        <span style="color:#75715e">// &#39;x&#39; is an l-value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>x;     <span style="color:#75715e">// We can take the address of &#39;x&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;            <span style="color:#75715e">// We can assign to &#39;x&#39;
+</span></span></span></code></pre></div><p><strong>R-values</strong> (right values) are temporary values that don&rsquo;t have a persistent memory address. They&rsquo;re typically the result of expressions or literals.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;     <span style="color:#75715e">// &#39;5 + 3&#39; is an r-value (temporary result)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> z <span style="color:#f92672">=</span> x <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;     <span style="color:#75715e">// &#39;x * 2&#39; is an r-value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// int* ptr = &amp;(x + 1);  // Error! Can&#39;t take address of r-value
+</span></span></span></code></pre></div><p>Think of it this way: l-values can appear on the left side of an assignment, r-values typically appear on the right side.</p>
+<h2 id="the-problem-move-semantics-solves">The Problem Move Semantics Solves</h2>
+<p>Consider what happens when we return a large object from a function or pass it around:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BigData</span> 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> data;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    BigData(size_t size) <span style="color:#f92672">:</span> data(size, <span style="color:#ae81ff">0</span>) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Constructor: Allocating &#34;</span> <span style="color:#f92672">&lt;&lt;</span> size <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; elements</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    BigData(<span style="color:#66d9ef">const</span> BigData<span style="color:#f92672">&amp;</span> other) <span style="color:#f92672">:</span> data(other.data) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copy Constructor: Copying &#34;</span> <span style="color:#f92672">&lt;&lt;</span> data.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; elements</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    size_t <span style="color:#a6e22e">size</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> data.size(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BigData <span style="color:#a6e22e">CreateBigData</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    BigData temp(<span style="color:#ae81ff">1000000</span>);  <span style="color:#75715e">// Create a big object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> temp;            <span style="color:#75715e">// Without move semantics, this copies!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    BigData myData <span style="color:#f92672">=</span> CreateBigData();  <span style="color:#75715e">// Another copy!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Without move semantics, this code would perform expensive deep copies of the entire vector, even though <code>temp</code> is about to be destroyed anyway. That&rsquo;s wasteful!</p>
+<h2 id="enter-move-semantics">Enter Move Semantics</h2>
+<p>Move semantics allow us to &ldquo;steal&rdquo; resources from temporary objects (r-values) that are about to die anyway. Instead of copying, we simply transfer ownership.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BigData</span> 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> data;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    BigData(size_t size) <span style="color:#f92672">:</span> data(size, <span style="color:#ae81ff">0</span>) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Constructor: Allocating &#34;</span> <span style="color:#f92672">&lt;&lt;</span> size <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; elements</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    BigData(<span style="color:#66d9ef">const</span> BigData<span style="color:#f92672">&amp;</span> other) <span style="color:#f92672">:</span> data(other.data) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copy Constructor: Copying &#34;</span> <span style="color:#f92672">&lt;&lt;</span> data.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; elements</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    BigData(BigData<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> data(std<span style="color:#f92672">::</span>move(other.data))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Move Constructor: Transferring ownership</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    BigData<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> BigData<span style="color:#f92672">&amp;</span> other)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copy Assignment</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> other.data;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    BigData<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(BigData<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Move Assignment: Transferring ownership</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(other.data);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    size_t <span style="color:#a6e22e">size</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> data.size(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BigData <span style="color:#a6e22e">CreateBigData</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    BigData temp(<span style="color:#ae81ff">1000000</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> temp;  <span style="color:#75715e">// Move constructor is called!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    BigData myData <span style="color:#f92672">=</span> CreateBigData();  <span style="color:#75715e">// Move, not copy!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Final size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> myData.size() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Output:</p>
+<pre tabindex="0"><code>Constructor: Allocating 1000000 elements
+Move Constructor: Transferring ownership
+Final size: 1000000
+</code></pre><p>Notice the <code>&amp;&amp;</code> syntax? That&rsquo;s an <strong>r-value reference</strong>, which allows us to bind to temporary objects and move from them.</p>
+<h2 id="when-to-use-move-semantics">When to Use Move Semantics</h2>
+<h3 id="1-returning-large-objects-from-functions">1. Returning Large Objects from Functions</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> GenerateLargeVector()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> result(<span style="color:#ae81ff">1000000</span>, <span style="color:#ae81ff">42</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result;  <span style="color:#75715e">// Automatically moved (RVO or move constructor)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> myVec <span style="color:#f92672">=</span> GenerateLargeVector();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2-transferring-ownership-explicitly">2. Transferring Ownership Explicitly</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Resource</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>[]<span style="color:#f92672">&gt;</span> buffer;
+</span></span><span style="display:flex;"><span>    size_t size;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Resource(size_t s) 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> buffer(std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>[]<span style="color:#f92672">&gt;</span>(s)), size(s)
+</span></span><span style="display:flex;"><span>    {}
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Resource(Resource<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> buffer(std<span style="color:#f92672">::</span>move(other.buffer))
+</span></span><span style="display:flex;"><span>        , size(other.size) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        other.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Resource<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(Resource<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            buffer <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(other.buffer);
+</span></span><span style="display:flex;"><span>            size <span style="color:#f92672">=</span> other.size;
+</span></span><span style="display:flex;"><span>            other.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Resource r1(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>    Resource r2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(r1);  <span style="color:#75715e">// Explicitly transfer ownership
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// r1 is now in a valid but unspecified state
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="3-working-with-containers">3. Working with Containers</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&gt;</span> names;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string temp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Alice&#34;</span>;
+</span></span><span style="display:flex;"><span>    names.push_back(temp);              <span style="color:#75715e">// Copy (temp still usable)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    names.push_back(std<span style="color:#f92672">::</span>move(temp));   <span style="color:#75715e">// Move (temp now empty)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    names.push_back(<span style="color:#e6db74">&#34;Bob&#34;</span>);             <span style="color:#75715e">// Move (temporary string)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    names.emplace_back(<span style="color:#e6db74">&#34;Charlie&#34;</span>);      <span style="color:#75715e">// Constructed directly in vector
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="4-implementing-the-rule-of-five">4. Implementing the Rule of Five</h3>
+<p>If your class manages resources, implement all five special member functions:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ResourceManager</span> 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> data;
+</span></span><span style="display:flex;"><span>    size_t size;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResourceManager(size_t s) 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> data(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[s])
+</span></span><span style="display:flex;"><span>        , size(s)
+</span></span><span style="display:flex;"><span>    {}
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Destructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">~</span>ResourceManager() { <span style="color:#66d9ef">delete</span>[] data; }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResourceManager(<span style="color:#66d9ef">const</span> ResourceManager<span style="color:#f92672">&amp;</span> other) 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> data(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[other.size]), size(other.size) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>copy(other.data, other.data <span style="color:#f92672">+</span> size, data);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResourceManager<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> ResourceManager<span style="color:#f92672">&amp;</span> other) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">delete</span>[] data;
+</span></span><span style="display:flex;"><span>            size <span style="color:#f92672">=</span> other.size;
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[size];
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>copy(other.data, other.data <span style="color:#f92672">+</span> size, data);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResourceManager(ResourceManager<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> data(other.data), size(other.size) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        other.data <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        other.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ResourceManager<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(ResourceManager<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">delete</span>[] data;
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> other.data;
+</span></span><span style="display:flex;"><span>            size <span style="color:#f92672">=</span> other.size;
+</span></span><span style="display:flex;"><span>            other.data <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>            other.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="common-pitfalls-and-best-practices">Common Pitfalls and Best Practices</h2>
+<h3 id="dont-move-from-l-values-unless-intentional">Don&rsquo;t Move from L-values Unless Intentional</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Alice&#34;</span>;
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string copy1 <span style="color:#f92672">=</span> name;              <span style="color:#75715e">// Copy, name still usable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>string copy2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(name);   <span style="color:#75715e">// Move, name now empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Using &#39;name&#39; here is dangerous!
+</span></span></span></code></pre></div><h3 id="mark-move-operations-as-noexcept">Mark Move Operations as <code>noexcept</code></h3>
+<p>Move operations should be marked <code>noexcept</code> when possible, as this allows containers to optimize their behavior:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>BigData(BigData<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move implementation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="use-stdmove-carefully">Use <code>std::move</code> Carefully</h3>
+<p><code>std::move</code> doesn&rsquo;t actually move anything, it just casts an l-value to an r-value reference, enabling move semantics:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1 <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(v1);  <span style="color:#75715e">// v1 is now empty
+</span></span></span></code></pre></div><h3 id="moved-from-objects-are-valid-but-unspecified">Moved-from Objects are Valid but Unspecified</h3>
+<p>After moving from an object, it remains in a valid state, but you shouldn&rsquo;t assume what that state is. You can safely destroy it or assign to it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span>;
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string s2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(s1);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// s1 is valid but empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;World&#34;</span>;  <span style="color:#75715e">// OK - assigning new value
+</span></span></span></code></pre></div><h2 id="performance-benefits">Performance Benefits</h2>
+<p>Move semantics can provide dramatic performance improvements:</p>
+<p><a href="https://godbolt.org/#z:OYLghAFBqd5QCxAYwPYBMCmBRdBLAF1QCcAaPECAMzwBtMA7AQwFtMQByARg9KtQYEAysib0QXACx8BBAKoBnTAAUAHpwAMvAFYTStJg1DIApACYAQuYukl9ZATwDKjdAGFUtAK4sGe1wAyeAyYAHI%2BAEaYxCAAzACspAAOqAqETgwe3r56KWmOAkEh4SxRMQm2mPYFDEIETMQEWT5%2BXJXVGXUNBEVhkdFxiQr1jc05bcPdvSVlgwCUtqhexMjsHOaxwcjeWADUJrFuyAjEAqgH2CYaAIIbWzuY%2B4dOw8SYrBdXt2abDNteewObgAbpgHCRPjcvsDUHh0LsCJhhh4kgBPCBzfZQgDsVhuuwJu2G6BAIFB4OIQOCBAuRKWK0wEC4GhZrI0pF2kjMcwOeOuhN2TC8RCJIwITwAIqKSSgTmdSQg8MAEAB9N4KTzCjIq7aoZAAa1JDFQAHcMbyvgLLYTiaTyURKc9BLSsMNJXTlqteQSAPQ%2B3Yo1HWgnBwXC1C7Vzu22y07GhVK1XqzU1HW0PWGkDGs082J8gUx45x1Ck9DLJg1IHoJYRegcmMsOi0PC0qpMJJKeEHKVRgC0ou6FvxNoIMrQwqebiB%2BzMZkDCNQqENM7Mk%2BnbY7mHQADpx4IMWvDivdiwFCZ4m4GOYzEPbtiJV9obD4YjhgBZVCgg%2BP3GhmP2iEnRpWJsA9BkmTZVkOS5XN80JIURUmRpo1HUki3lEBFWVNUkRTbVdQNI1TXNPNQz/VCyTBB0qWdEDdldcVu2lUkWE/RkNU9TBYN9f0P1BMjhwJBCIyjJjCzleNMMTHCNW8VMCMzbMSLgglxOLUty0rQ5qy8WtMHrCjG1oZtWwMTcu1iHsGHhfskOAlTmJQJZGMOadrz4x4iCXEBjyBdczM7Xcln3TE/KPa8TzPC8r1nW8THvR8bmpE8mGCb8cQc18mlQNFlNDLKPLywTdjeAhlgYXYNDihKbg4BZaE4eJeD8DgtFIEsOCnSxrDA1YZ1iHhSAITQ6oWQ1YlibcJummbZoANn0ThJGakb2s4XgFBAdlhtaurSDgWAkDQFgkjoaJyEoY7TvoGJgC4eIzD4OhEWITaIAiVaImCBpUU4QavuYYhUQAeQibQqL%2B3hjrYQRgYYWhft20gsAiLxgDcMRaE27heCwFhDGAcQkfwN4HDwUFsbazBVDBYU1ja6kqlW5sImIH6PCwVaCGIPAWEh0hQWICJUkwCVMHxoxmyMEaFioAxgAUAA1PBMBNYGkkYfn%2BEEEQxHYKQZEERQVHUJHdDaAxpdMbrLH0PAIk2yAFhympsd7YHV17Ylu2tqxLC4bFeDY4geddeAFjsKiMhcayxlaUhAmCPpSgGNo8nSAQ49yVIM4YaZ%2BhiCYqijgQulGTVxnaEvajFfOU8L2wxSziZa6TmZU4j%2BlVgkerGpWpGOt2VQAA45t7ObJF2YBkGQXZ7u3VcIFwQgSH6rg5l4HatDmMa4km2aD%2BmhaGo4ZbSBatqOo2rahpl/aYEQEBnKSYULogK6zuIUJWDWEex4nqeM857xAXrwLcK9Q56G1sIUQ4gDbQONmoVa5tSAmjZkkSGvcOBNXPqtDqwNhQv3FKgKgQ9R7j0ntPWe89F4eBOp/NeG9b67R3qQca%2B9D4H0Wqfful91q2BvlvUa3CzC8KDvwoRrDBZpGcJIIAA%3D">GodBolt -O2 -std=c++17</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;chrono&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> gAllocations <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> gCopies <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">new</span>(size_t size)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">TestCopy</span>() 
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    gAllocations<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> malloc(size);
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> source(<span style="color:#ae81ff">10000000</span>, <span style="color:#ae81ff">42</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> start <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dest <span style="color:#f92672">=</span> source;  <span style="color:#75715e">// Copy
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> end <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>duration<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span>, std<span style="color:#f92672">::</span>milli<span style="color:#f92672">&gt;</span> elapsed <span style="color:#f92672">=</span> end <span style="color:#f92672">-</span> start;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copy took: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> elapsed.count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; ms</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">TestMove</span>() 
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> integer <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    Data() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Data(<span style="color:#66d9ef">int</span> i) <span style="color:#f92672">:</span> integer(i) {}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Data(<span style="color:#66d9ef">const</span> Data<span style="color:#f92672">&amp;</span> Other)
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> integer(Other.integer)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        gCopies<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copied Data</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintVector</span>(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Data<span style="color:#f92672">&gt;</span> InData)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> InData.size() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InData.empty())
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Elements: { &#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> InData.size(); i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> InData[i].integer;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> InData.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; }</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> source(<span style="color:#ae81ff">10000000</span>, <span style="color:#ae81ff">42</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> start <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dest <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(source);  <span style="color:#75715e">// Move
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> end <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>duration<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span>, std<span style="color:#f92672">::</span>milli<span style="color:#f92672">&gt;</span> elapsed <span style="color:#f92672">=</span> end <span style="color:#f92672">-</span> start;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Move took: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> elapsed.count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; ms</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Data<span style="color:#f92672">&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        Numbers.push_back(Data(i));
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    PrintVector(Numbers);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Allocation: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gAllocations <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copies: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gCopies;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin.get();
+</span></span><span style="display:flex;"><span>    TestCopy();
+</span></span><span style="display:flex;"><span>    TestMove();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="the-output">The Output:</h3>
-<pre tabindex="0"><code>Copied Data
-Copied Data
-Copied Data
-...
-Size: 5
-Elements: { 0, 1, 2, 3, 4 }
-Allocation: 8
-Copies: 20
-</code></pre><p>Here, we have <strong>8 allocations</strong> and <strong>20 copies</strong> of <code>Data</code>. This is far from optimal and can be a performance bottleneck, especially when dealing with large datasets.</p>
-<h4 id="why-are-there-so-many-copies">Why Are There So Many Copies?</h4>
-<ol>
-<li>
-<p><strong>Passing the Vector by Value</strong>:<br>
-The function <code>PrintVector</code> takes the <code>std::vector&lt;Data&gt;</code> by value, meaning that the vector and all its elements are copied when passed. Each copy of a <code>Data</code> object triggers the copy constructor, which adds unnecessary overhead.</p>
-</li>
-<li>
-<p><strong>Multiple Allocations</strong>:<br>
-As <code>push_back</code> is called, the vector resizes its internal storage, leading to multiple reallocations. Each reallocation can result in copying existing elements into new memory blocks, further adding to the overhead.</p>
-</li>
-</ol>
-<h2 id="fixing-the-code-with-move-semantics">Fixing the Code with Move Semantics</h2>
-<p>We can improve the performance by using <strong>move semantics</strong>. Let’s look at an optimized C++ version and then explore how Unreal Engine’s <code>TArray</code> can provide similar behavior.</p>
-<h3 id="optimized-raw-c-code">Optimized Raw C++ Code:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> gAllocations <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> gCopies <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> gMoves <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">new</span>(size_t size)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Allocated: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> size <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; bytes</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>    gAllocations<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> malloc(size);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Data</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> integer <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Data() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
-</span></span><span style="display:flex;"><span>    Data(<span style="color:#66d9ef">int</span> i) <span style="color:#f92672">:</span> integer(i) {}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Data(<span style="color:#66d9ef">const</span> Data<span style="color:#f92672">&amp;</span> Other)
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> integer(Other.integer)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        gCopies<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copied Data</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Data(Data<span style="color:#f92672">&amp;&amp;</span> Other) <span style="color:#66d9ef">noexcept</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> integer(Other.integer)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        gMoves<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Moved Data</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>        Other.integer <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// Optional: Invalidate the source object
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintVector</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Data<span style="color:#f92672">&gt;&amp;</span> InData)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> InData.size() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InData.empty())
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Elements: { &#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> InData.size(); i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> InData[i].integer;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> InData.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; }</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Data<span style="color:#f92672">&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>    Numbers.reserve(<span style="color:#ae81ff">5</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        Numbers.emplace_back(i);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    PrintVector(Numbers);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Allocations: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gAllocations <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copies: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gCopies <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Moves: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gMoves <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin.get();
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="the-new-output">The New Output:</h3>
-<pre tabindex="0"><code>Allocated: 16 bytes
-Allocated: 20 bytes
-Size: 5
-Elements: { 0, 1, 2, 3, 4 }
-Allocations: 2
-Copies: 0
-Moves: 0
-</code></pre><h3 id="what-changed">What Changed?</h3>
-<ol>
-<li>
-<p><strong>Passing by Const Reference</strong>:<br>
-Passing the vector by <code>const std::vector&lt;Data&gt;&amp;</code> avoids copying the entire vector and its elements when calling <code>PrintVector</code>.</p>
-</li>
-<li>
-<p><strong>Using <code>reserve()</code></strong>:<br>
-Pre-allocating memory with <code>reserve(5)</code> prevents reallocations as we insert elements, reducing the number of allocations to two.</p>
-</li>
-<li>
-<p><strong>Using <code>emplace_back()</code></strong>:<br>
-This avoids creating temporary objects and thus reduces unnecessary copying or moving.</p>
-</li>
-</ol>
-<hr>
-<p>Just to put this in there, you don&rsquo;t always need to use a vector if you know the size. A std::array makes more sense in situations where you know the size.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintVector</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span>Data, <span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;&amp;</span> InData)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> InData.size() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InData.empty())
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Elements: { &#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> InData.size(); i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> InData[i].integer;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> InData.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; }</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span>Data, <span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        Numbers[i].integer <span style="color:#f92672">=</span> i;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    PrintVector(Numbers);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Allocation: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gAllocations <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copies: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gCopies <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Moves: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> gMoves;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin.get();
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>This my by far the most efficient.</p>
-<pre tabindex="0"><code>Size: 5
-Elements: { 0, 1, 2, 3, 4 }
-Allocation: 0
-Copies: 0
-Moves: 0
-</code></pre><p>But we&rsquo;re more talking about vectors and dynamic memory allocation, which is why we use .reserve() to allocate the memory once where we need it.</p>
-<h2 id="move-semantics-in-unreal-engine">Move Semantics in Unreal Engine</h2>
-<p>Unreal Engine’s <code>TArray</code> is the engine&rsquo;s equivalent to <code>std::vector</code> in C++. Much like in raw C++, you can benefit from move semantics when working with <code>TArray</code> to avoid unnecessary copies and allocations.</p>
-<h3 id="unreal-engine-example">Unreal Engine Example:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;CoreMinimal.h&#34;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>int32 gAllocations <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>int32 gCopies <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>int32 gMoves <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">new</span>(size_t size)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    gAllocations<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> FMemory<span style="color:#f92672">::</span>Malloc(size);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FData</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    int32 Integer <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    FData() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
-</span></span><span style="display:flex;"><span>    FData(int32 i) <span style="color:#f92672">:</span> Integer(i) {}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    FData(<span style="color:#66d9ef">const</span> FData<span style="color:#f92672">&amp;</span> Other)
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> Integer(Other.Integer)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        gCopies<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Copied Data&#34;</span>));
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    FData(FData<span style="color:#f92672">&amp;&amp;</span> Other) <span style="color:#66d9ef">noexcept</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> Integer(Other.Integer)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        gMoves<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Moved Data&#34;</span>));
-</span></span><span style="display:flex;"><span>        Other.Integer <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// Optional: Invalidate the source object
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintTArray</span>(<span style="color:#66d9ef">const</span> TArray<span style="color:#f92672">&lt;</span>FData<span style="color:#f92672">&gt;&amp;</span> InData)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Size: %d&#34;</span>), InData.Num());
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InData.Num() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    FString Elements <span style="color:#f92672">=</span> TEXT(<span style="color:#e6db74">&#34;Elements: { &#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (int32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> InData.Num(); i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        Elements <span style="color:#f92672">+=</span> FString<span style="color:#f92672">::</span>FromInt(InData[i].Integer);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> InData.Num() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            Elements <span style="color:#f92672">+=</span> TEXT(<span style="color:#e6db74">&#34;, &#34;</span>);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    Elements <span style="color:#f92672">+=</span> TEXT(<span style="color:#e6db74">&#34; }&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;%s&#34;</span>), <span style="color:#f92672">*</span>Elements);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">TestMoveSemantics</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FData<span style="color:#f92672">&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>    Numbers.Reserve(<span style="color:#ae81ff">5</span>);  <span style="color:#75715e">// Pre-allocate memory to prevent reallocations
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (int32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        Numbers.Emplace(i);  <span style="color:#75715e">// Emplace to avoid copies
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    PrintTArray(Numbers);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Allocations: %d&#34;</span>), gAllocations);
-</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Copies: %d&#34;</span>), gCopies);
-</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Moves: %d&#34;</span>), gMoves);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Bringing back up that std::array over std::vector point, you can use TArray allocators to solve the need to create that second allocation <strong>(Numbers.Reserve(5))</strong>. You could just inline the array allocation if you know it&rsquo;s only a specific size.</p>
-<p>Here&rsquo;s an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FData, TInlineAllocator<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FData, TFixedAllocator<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;&gt;</span> Numbers;
-</span></span><span style="display:flex;"><span>    ...
-</span></span></code></pre></div><h3 id="the-unreal-engine-output">The Unreal Engine Output:</h3>
-<pre tabindex="0"><code>Copied Data
-Copied Data
-...
-Size: 5
-Elements: { 0, 1, 2, 3, 4 }
-Allocations: 2
-Copies: 0
-Moves: 0
-</code></pre><hr>
+</span></span></code></pre></div><p>On most systems, the move operation will be orders of magnitude faster than the copy, (dependant on optimization levels).</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>By understanding and properly applying <strong>move semantics</strong>, you can drastically reduce unnecessary allocations and copies in your programs, leading to better performance. This is especially important in performance-critical applications like game development, whether you&rsquo;re using raw C++ or Unreal Engine’s <code>TArray</code>.</p>
-<p>In our examples, both in C++ and Unreal Engine, we reduced the number of allocations and eliminated unnecessary copies by:</p>
-<ol>
-<li>Passing containers by const reference.</li>
-<li>Pre-allocating memory to prevent reallocations.</li>
-<li>Using <code>emplace_back()</code> in C++ or <code>Emplace()</code> in Unreal Engine.</li>
-</ol>
-<p>Mastering these techniques will help you write more efficient code in any game development environment!</p>
-<p>Thanks for reading! Hopefully, you now have a better understanding of move semantics and how to apply them in both raw C++ and Unreal Engine.</p>
+<p>Move semantics are a powerful feature in modern C++ that enable efficient resource management and transfer of ownership. By understanding l-values and r-values, implementing move constructors and move assignment operators, and using <code>std::move</code> judiciously, you can write more efficient and expressive C++ code.</p>
+<p>Remember: move semantics aren&rsquo;t about doing less work, they&rsquo;re about doing the <em>right</em> work at the <em>right</em> time. When an object is about to die anyway, why waste time copying its resources when we can simply take them?</p>
+<p>Happy coding!</p>
 </section>
 
   <section id="comments">
@@ -475,32 +453,33 @@ Moves: 0
 </div>
 </footer>
       </div><aside id="side-pane" class="side-sticky"><div class="side-details">
-    <span>1295 words</span>
-    <span>8 - 11 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
+    <span>1237 words</span>
+    <span>10 - 13 minutes read</span></div><h3>Table Of Contents</h3><nav id="TableOfContents">
   <ul>
-    <li><a href="#understanding-the-problem">Understanding the Problem</a>
+    <li><a href="#understanding-l-values-and-r-values">Understanding L-values and R-values</a></li>
+    <li><a href="#the-problem-move-semantics-solves">The Problem Move Semantics Solves</a></li>
+    <li><a href="#enter-move-semantics">Enter Move Semantics</a></li>
+    <li><a href="#when-to-use-move-semantics">When to Use Move Semantics</a>
       <ul>
-        <li><a href="#raw-c-code-example">Raw C++ Code Example:</a></li>
-        <li><a href="#the-output">The Output:</a></li>
+        <li><a href="#1-returning-large-objects-from-functions">1. Returning Large Objects from Functions</a></li>
+        <li><a href="#2-transferring-ownership-explicitly">2. Transferring Ownership Explicitly</a></li>
+        <li><a href="#3-working-with-containers">3. Working with Containers</a></li>
+        <li><a href="#4-implementing-the-rule-of-five">4. Implementing the Rule of Five</a></li>
       </ul>
     </li>
-    <li><a href="#fixing-the-code-with-move-semantics">Fixing the Code with Move Semantics</a>
+    <li><a href="#common-pitfalls-and-best-practices">Common Pitfalls and Best Practices</a>
       <ul>
-        <li><a href="#optimized-raw-c-code">Optimized Raw C++ Code:</a></li>
-        <li><a href="#the-new-output">The New Output:</a></li>
-        <li><a href="#what-changed">What Changed?</a></li>
+        <li><a href="#dont-move-from-l-values-unless-intentional">Don&rsquo;t Move from L-values Unless Intentional</a></li>
+        <li><a href="#mark-move-operations-as-noexcept">Mark Move Operations as <code>noexcept</code></a></li>
+        <li><a href="#use-stdmove-carefully">Use <code>std::move</code> Carefully</a></li>
+        <li><a href="#moved-from-objects-are-valid-but-unspecified">Moved-from Objects are Valid but Unspecified</a></li>
       </ul>
     </li>
-    <li><a href="#move-semantics-in-unreal-engine">Move Semantics in Unreal Engine</a>
-      <ul>
-        <li><a href="#unreal-engine-example">Unreal Engine Example:</a></li>
-        <li><a href="#the-unreal-engine-output">The Unreal Engine Output:</a></li>
-      </ul>
-    </li>
+    <li><a href="#performance-benefits">Performance Benefits</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
   </ul>
 </nav><h3>Related</h3>
-    <ul><li><a href="/posts/memory/softreferences/">What Are Soft References?</a></li><li><a href="/posts/general/constexpr/">Constexpr and Consteval</a></li><li><a href="/posts/memory/buffers/">Working With Buffers</a></li><li><a href="/posts/optimization/thecastscare/">The Cast Scare</a></li></ul></aside></div>
+    <ul><li><a href="/archive/movesemantics_old/">Move Semantics</a></li><li><a href="/posts/memory/softreferences/">What Are Soft References?</a></li><li><a href="/posts/general/constexpr/">Constexpr and Consteval</a></li><li><a href="/posts/general/vtable/">Fun with V-Tables</a></li><li><a href="/posts/memory/buffers/">Working With Buffers</a></li></ul></aside></div>
   </div>
 </body>
 </html>
